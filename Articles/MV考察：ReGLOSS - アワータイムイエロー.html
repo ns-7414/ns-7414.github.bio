@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MV考察：ReGLOSS - アワータイムイエロー.html</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      /* ── Article-specific styles ── */
+      .article-header {
+        margin-bottom: 40px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--card2);
+        position: relative;
+      }
+      .article-header::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 72px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--purple), var(--cyan));
+        border-radius: 2px;
+      }
+      .article-cat-tag {
+        display: inline-block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--purple);
+        border: 1px solid var(--purple);
+        padding: 3px 12px;
+        border-radius: 4px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .article-main-title {
+        font-family: "Orbitron", monospace;
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: 0.03em;
+        line-height: 1.35;
+        margin-bottom: 16px;
+      }
+      .article-main-title .accent {
+        color: var(--cyan);
+      }
+      .article-meta {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text2);
+        letter-spacing: 0.06em;
+        flex-wrap: wrap;
+      }
+      .article-meta .sep {
+        color: var(--card2);
+      }
+
+      /* Cover image */
+      .article-cover {
+        width: 100%;
+        aspect-ratio: 16/7;
+        background: linear-gradient(
+          135deg,
+          #5ecfc9 0%,
+          #38b2ac 40%,
+          #2b78b0 100%
+        );
+        border-radius: var(--r);
+        overflow: hidden;
+        margin-bottom: 40px;
+        position: relative;
+      }
+      .article-cover-caption {
+        position: absolute;
+        bottom: 14px;
+        right: 18px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.06em;
+      }
+
+      /* Article body typography */
+      .article-body-wrap {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 40px;
+        align-items: start;
+      }
+      @media (max-width: 700px) {
+        .article-body-wrap {
+          grid-template-columns: 1fr;
+        }
+        .article-sidebar {
+          order: -1;
+        }
+      }
+
+      .article-content h2 {
+        font-family: "Orbitron", monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--cyan);
+        letter-spacing: 0.08em;
+        margin: 36px 0 14px;
+        text-transform: uppercase;
+      }
+      .article-content h2::before {
+        content: "// ";
+        color: var(--purple);
+        opacity: 0.7;
+      }
+      .article-content p {
+        font-size: 0.92rem;
+        color: var(--text2);
+        line-height: 2;
+        margin-bottom: 18px;
+      }
+      .article-content p strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .article-content .highlight {
+        border-left: 3px solid var(--purple);
+        padding: 14px 20px;
+        background: var(--card);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin: 24px 0;
+        font-style: italic;
+        font-size: 0.9rem;
+        color: var(--text);
+        line-height: 1.9;
+      }
+      .article-content .highlight .quote-src {
+        display: block;
+        margin-top: 10px;
+        font-style: normal;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+      }
+      .article-content .img-block {
+        margin: 28px 0;
+        border-radius: var(--r);
+        overflow: hidden;
+        /* aspect-ratio: 16/9; */
+        background: linear-gradient(135deg, #4a9cc7 0%, #7b8fc7 100%);
+        position: relative;
+        width: 100%; /* 或設定固定寬度如 800px */
+        max-width: 100%; /* 確保在小螢幕下不會溢出 */
+        height: auto; /* 讓容器高度由內部圖片撐開 */
+      }
+
+      /* 圖片層：執行等比例縮放 */
+      .article-content .img-block img {
+        display: block; /* 移除底部的空白間隙 */
+        width: 100%; /* 強制寬度填滿容器 */
+        height: auto; /* 核心：根據原始比例自動計算高度，不產生壓縮變形 */
+        object-fit: contain; /* 作為保險，確保圖片邏輯上不被裁切 */
+      }
+
+      .article-content .img-caption {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--text2);
+        letter-spacing: 0.05em;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      /* Sidebar */
+      .article-sidebar {
+        position: sticky;
+        top: 80px;
+      }
+      .sidebar-card {
+        background: var(--card);
+        border-radius: var(--r);
+        padding: 18px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .sidebar-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--purple), var(--cyan));
+      }
+      .sidebar-title {
+        font-family: "Orbitron", monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--cyan);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .toc-list {
+        list-style: none;
+      }
+      .toc-list li {
+        font-size: 0.78rem;
+        color: var(--text2);
+        padding: 5px 0;
+        border-bottom: 1px solid var(--card2);
+        cursor: pointer;
+        transition: color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .toc-list li:last-child {
+        border-bottom: none;
+      }
+      .toc-list li:hover {
+        color: var(--cyan);
+      }
+      .toc-list li::before {
+        content: "▸ ";
+        color: var(--purple);
+        font-size: 0.65rem;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag-chip {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        border: 1px solid var(--card2);
+        padding: 3px 10px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        transition: all 0.2s;
+      }
+      .tag-chip:hover {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+
+      /* Back & nav */
+      .article-nav-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 52px;
+        padding-top: 24px;
+        border-top: 1px solid var(--card2);
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .nav-arrow {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-width: 48%;
+      }
+      .nav-arrow .label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .nav-arrow a {
+        font-size: 0.82rem;
+        color: var(--cyan);
+        line-height: 1.4;
+        transition: color 0.2s;
+      }
+      .nav-arrow a:hover {
+        color: var(--purple);
+      }
+      .nav-arrow.right {
+        text-align: right;
+        margin-left: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── NAV ───────────────────────────────────────────── -->
+    <nav>
+      <div class="nav-inner">
+        <a href="../index.html" class="logo">Web Name</a>
+        <div class="nav-links">
+          <a href="../work.html" class="nav-link">Works</a>
+          <a href="../blog.html" class="nav-link active">Blog</a>
+          <a href="../about.html" class="nav-link">About</a>
+          <button class="theme-toggle" id="themeToggle" title="切換主題">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ── HEADER ─────────────────────────────────────── -->
+      <div class="article-header">
+        <div class="article-cat-tag">Hololive_MV分析</div>
+        <h1 class="article-main-title">
+          ReGLOSS - アワータイムイエロー<br />
+          <span class="accent">// 迎接未來的轉折點</span>
+        </h1>
+        <div class="article-meta">
+          <span>2026 . 04 . 06</span>
+          <span class="sep">|</span>
+          <span>閱讀時間約 18 分鐘</span>
+          <span class="sep">|</span>
+          <span>GK</span>
+        </div>
+      </div>
+
+      <!-- ── COVER ──────────────────────────────────────── -->
+      <div class="article-cover">
+        <img src="assets/HTY_BG.jpg" alt="アワータイムイエローMV封面" />
+        <div class="article-cover-caption">アワータイムイエローMV封面</div>
+      </div>
+
+      <!-- ── BODY + SIDEBAR ─────────────────────────────── -->
+      <div class="article-body-wrap">
+        <div class="article-content">
+          <p>
+            做為第一次寫網站，我該拿出來（或者說只能拿出來）的文章絕對就是這篇了。
+            耗費約7小時觀察MV細節，4小時做紀錄、分析，並寫下這篇文章。
+            不敢說自己分析得有多好，或者有多精準，但投入在其中的心意絕對是最真實的。
+          </p>
+
+          <h2>整體MV背景</h2>
+
+          <p>
+            不管是色彩、衣裝或是環境都可以看出MV很明顯的被分成了前後兩個部分。
+            而由四人從前半的活潑系衣裝，到後半的成熟打扮也可得知MV中的整體時間線是從過去
+            → 現在劃分的，<br />
+            色彩上也有很強烈的對比：前半部以黃色和亮色為主，後半則是近乎全白灰的色調。
+            黃色通常被視為是光線、活力的象徵；白灰色除了有專業感以外，同時也帶有單調、冷淡的氣息在。<br />
+            能看出後半的四人除了衣裝都是白色系以外，衣服與髮型也比前半成熟許多，視覺上有種收斂感，相較之下前半的打扮則明顯帶有活潑跟陽光的氣息。
+            髮型部分也是採用最原始的設計。
+          </p>
+
+          <p>
+            根據MV發布日期(9/13)與R團出道日(9/9、10)相近這點，MV中的打扮轉變可以視為是ReGLOSS完整迎來兩周年後的模樣。<br />
+            與先前青澀、稚氣的模樣不同，
+            歷經兩年後他們已經變得更成熟，各方面也都成長了許多。
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_01.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            // 近收尾處的MV截圖，能看出四人的衣裝皆為白灰色，打扮成熟許多。
+          </p>
+
+          <h2>關於MV中的色彩</h2>
+
+          <p>
+            稍微提一嘴關於三原色的概念。<br />
+            三原色光模式，顧名思義就是RGB系統。將紅、綠、藍三種顏色的色光以不同的比例相加混色所形成，三種色光重疊到的地方則會形成純白色的光。<br />
+            各位是否有遇過這種狀況，或者聽別人提過：自己的物品被太陽曬到褪色。至於衣服也不例外，在太陽下照久了也容易讓布料褪色。<br />
+            回到MV，這可以用來解釋後半部近乎純白灰色的色調 ——
+            ReGLOSS本就是個音樂導向團體。上舞台的機率比起其他人高出許多，而舞台上一定會有打光設備。在表演的同時雖然成長了不少，但同時也被台上的強烈燈光照耀到失去了自己的色彩。<br />
+            後半部的面部表情相較前半也有些緊繃。雖然他們都會正視鏡頭，但眼神卻總像是穿透鏡頭，甚至穿透觀眾，給人一種空洞感。
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_02.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            // らでん近面對鏡頭的截圖，應該算是整部MV中眼神最明顯空洞的一幕。
+          </p>
+
+          <h2>らでん部分</h2>
+
+          <p>
+            前半段的らでん拿著手持的微距望遠鏡，這種望遠鏡通常用於觀賞畫作的細節部分，但らでん卻是拿著望遠鏡坐在類似電影院的地方。<br />
+            這裡可以解讀成初期らでん的狀態。雖然有著很專業的東西（望遠鏡→對應藝術專門知識），卻因為尚未熟悉這個圈子，無法順利使用手中的工具。（前期尚未確立風格時的狀況）<br />
+            而透過貓眼向外看的這一幕，在外面有動靜時先去查看貓眼，表示你不確定門外有什麼，感到不安、未知。但會查看，也就代表你好奇著外面有什麼東西。<br />
+            這個動作同時透露出了對外界（Vtuber這個圈子）的好奇及不安感。後面也沒有出現任何開門的動作，代表不確定這樣的自己是否能夠打開門迎接外面的一切。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden01.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // らでん拿著觀賞畫作的望遠鏡坐在電影院的椅子上。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden02.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">// らでん往貓眼向外查看一幕。</p>
+
+          <p>
+            來到後半，らでん站在畫框後被一大堆攝影機與麥克風對準的畫面。<br />
+            被攝影機當成焦點，說明他已經從觀看者轉為被觀看者（開始直播），畫框的存在表明已經確立出自己的風格（藝術型Vtuber），但後面的畫面卻逐漸拉近，以不太舒適的距離聚焦在拉電臉上。<br />
+            後面幾幕能從肢體動作看出拉電其實有些不自在，而畫面拉近後，原本框住拉電的畫框則早已消失在鏡頭範圍外。
+          </p>
+
+          <div class="highlight">
+            讓自己受限的究竟是畫框外的鏡頭 或是自己造出的那個畫框？
+          </div>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden03.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // らでん站在畫框後，畫面周圍則是數台對準らでん的攝影機。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden04.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            面對拍攝的らでん做出明顯的閃避轉頭動作，同時這個拍攝距離也無法看見先前的畫框。
+          </p>
+
+          <h2>はじめ部分</h2>
+
+          <p>
+            前半段的はじめ，有時小到可以躺在茶杯裡，有時又大到可以望向整個場景。<br />
+            雖然不太明顯，但這裡身體的時大時小隱約點出了這部分：以大部分角度來說，自己擅長的舞蹈無法、或極難成為主角（把自我縮得比茶杯還小），但內心又矛盾的期望自己能夠靠著舞蹈站上C位（身體長得比場景還大）。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Hajime01.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">// はじめ斜躺在茶杯內一幕。</p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Hajime02.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 由窗戶和頭部的比例可看出此處的はじめ身體大小與場景相比非常懸殊。
+          </p>
+
+          <p>
+            畫面切到後半，此時的はじめ已經可以僅用指尖捏起茶杯。<br />
+            但可以看到此處手指與茶杯的比例非常懸殊，若是手指再用力一些，茶杯很可能就會應聲碎裂。而はじめ視線的角度與其說是觀察，更像是在"審視"這個茶杯。
+            再來則是はじめ前半段曾望向的廊道，可以看到右側多出了一扇門（已經來到了這個以前嚮往的地方），但他此時身體的比例依舊與場景不合，後面的身材變化也更加劇，甚至被場景受限到無法做出任何肢體動作的狀態。<br />
+            如果有走過地下街的人應該知道，很多舞蹈團體、或是學校熱舞社的學生很常會出沒在此類地方練舞，除了空間大以外，同時也能增加自己團體的曝光度。<br />
+          </p>
+
+          <div class="highlight">
+            持續加強自己的長處，接著回頭審視。
+            舞蹈有了，曝光也有了，那下一步該怎麼走？
+          </div>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Hajime03.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            はじめ捏起茶杯一幕。雖然色調不同，但由外觀仍可看出是前半段出現過的那個茶杯。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Hajime04.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            可從窗戶看出此處為先前はじめ望向的那個廊道，其身旁則多出了一道木門。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Hajime05.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            可明顯看出はじめ的身體大小已與場景不符，肢體幾乎是無法動彈的狀態。
+          </p>
+
+          <h2>莉々華部分</h2>
+
+          <p>
+            這段最吸睛的應該是那罐黃色指甲油了，莉々華則在下一幕推了一整車化妝品。<br />
+            限界飯、發酒瘋，各種渾沌行為樣樣來。前期的莉々華比起建立人設，說是"做自己"可能更精準一些，用舒適的方式包裝自己（自己挑的化妝品）。
+            這段同時閃過大量莉々華手中拿著一面鏡子的片段。雖然擁有大量、多樣的化妝品，但由於拿著鏡子，即便成分複雜也能夠自己隨時檢查狀態（行為都還在尚未逾矩的範圍內）。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Ririka01.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">// 整段最吸睛的黃色指甲油。</p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Ririka02.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 莉々華手握鏡子照向自己一幕。在這段中也有閃過許多近乎相同的畫面。
+          </p>
+
+          <p>
+            畫面轉到後半段，此處可以看到莉々華被塗有黃色指甲油的模型手抓著，後續鏡頭也停留在莉々華坐在原位被服務的畫面。<br />
+            這裡可以解釋為後期需要做的事開始多了起來，不能再像以前那樣隨意、奔放（所有事情都在原位上完成），許多事務也已經被安排進固定的行程（側邊有手在幫莉々華打理）。
+            而雖然化妝、打扮這些東西仍舊有被排入，但已經無法由自己掌控了，甚至連自己挑的黃色指甲油都不是自己親手塗的。<br />
+            後半段也完全不見鏡子的蹤影，四周取而代之的是大量無法反光的布料，也就更別提要映照出自己的臉了。
+          </p>
+
+          <div class="highlight">
+            逐漸成為人設中的模樣，但還看得見真實的自己嗎？
+          </div>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Ririka03.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            莉々華被塗著黃色指甲油的模型手抓住一幕。注意此處模型手的動作與先前握著黃色指甲油的手一模一樣。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Ririka04.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 畫面四周有許多手在幫莉々華打理，右下角也出現了先前的黃色指甲油。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Ririka05.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            莉々華斜靠在大量布料堆中。此處甚至連背後的牆壁都被畫成稜角狀，即便能反射但也無法照清全貌。
+          </p>
+
+          <h2>奏部分</h2>
+
+          <p>
+            前半段的奏望著玻璃後的假人展示架，下一幕則坐在階梯上聽著音樂。<br />
+            錄音室內通常會有兩間房間，一間裡面有麥克風架供歌手使用，另一間有處理混音的電腦及其他設備。兩個房間中間則會隔著一片玻璃窗戶，方便混音師監控錄音室內的情況。<br />
+            此處可以將另一側的場景視為舞台（展示性質、錄音室內錄音唱歌），奏戴著耳機，嚮往著玻璃片後的另一片光景（想成為正式歌手，展示出自己的特長），而樓梯一幕的開放場景也揭示了他這時還待在外面的空間。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Kanade01.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 奏望向展示窗內一幕。可以看到內部擺放著數個假人模型。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Kanade02.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            奏戴著耳機坐在階梯上。大量背光的背景可判斷此處為開放式空間，並非室內階梯。
+          </p>
+
+          <p>
+            來到後半段，這時的奏已經進入了室內的場景。<br />
+            此處有個小細節，從先前莉々華拿著的鏡子反射中可以看到玻璃窗外的奏是有影子的，但在後半段玻璃窗內的奏卻沒有任何影子。雖然成為了理想中的模樣，但卻沒有一併把自己帶過來（影子淡化/消失），<br />
+            而在更後面的場景中則有比前面更多的假人展示架，奏的身體動作與先前相比看上去也更僵硬，逐漸與一旁的假人同化。
+          </p>
+
+          <div class="highlight">
+            清脆的歌聲使其能夠與他人平起平坐，但能夠在那抑揚頓挫中增添更多的個人色彩嗎？
+          </div>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Kanade03.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 由兩側光線差異和影子方向，可看出此時的奏已經身處室內空間。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Kanade04.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            從鏡子反射中可以明顯看到室外的奏是有影子的，但在室內的奏腳下卻沒有任何影子。（可與上圖比對）
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Kanade05.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            由奏動作上可以明顯看出並非放鬆狀態，而是僵硬的站立著。站姿也與一旁的假人相近。
+          </p>
+
+          <h2>轉折處</h2>
+
+          <p>
+            整部MV中我最喜歡的就是這個轉折的畫面。<br />
+            最前面有提到，整部MV被分割為過去和現在兩個時間。身處白色空間的四人已經處於褪色，淡化的狀態，過去時間段的四人則出手做出了這個轉折。
+          </p>
+
+          <p>
+            らでん這邊已經沒有任何嘗試閃躲鏡頭的動作，只是靜靜地低頭站在畫框前任由攝影機拍攝。<br />
+            此時過去的らでん一把將黃色簾子拉起，並將畫框、攝影機與らでん隔開。
+          </p>
+
+          <p>
+            <strong>你是個藝術品般的存在，但請別只把自己當成"藝術品"。</strong>
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_03.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            // 黃色布簾被拉起，注意此處的布簾並沒有把畫框一併遮住。
+          </p>
+
+          <p>
+            はじめ則是呈現接近雙手抱胸蜷縮的狀態。雖然可以看到一旁其實還有空間，但因為身體大小（高度）已經與空間相近，實際上也不太能改變姿勢。<br />
+            這邊過去的はじめ則是直接將整個屋頂給拿起來。
+          </p>
+
+          <p>
+            <strong
+              >繼續以舞蹈朝著更遠大的目標前進吧，你不該只是侷限在這。</strong
+            >
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_04.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            //
+            はじめ原本身處的廊道此時變成了一個盒子般的空間，天花板則如蓋子般被從外拿起。
+          </p>
+
+          <p>
+            莉々華這裡則是半坐半躺在布料堆裡的姿勢。<br />
+            椅子坐久雙腳會退化，再久一點甚至會讓人忘了自己是否還能夠走路。而過去的莉々華在這裡硬是一手把人給拉了起來。
+          </p>
+
+          <p>
+            <strong>不想再看看更多模樣的自己嗎？一起走吧！</strong>
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_05.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            //
+            從半坐躺的姿勢被一把拉起的莉々華。個人很喜歡MV這邊的動態描寫，很有張力。
+          </p>
+
+          <p>
+            奏這裡就是靜靜地站在原地，看上去也沒有任何要走動或是變動姿勢的跡象。<br />
+            過去的奏則從身後出現，一把抱了上去。
+          </p>
+
+          <p>
+            <strong>嘿──也換個姿勢吧！你可是有血有肉的人類呢。</strong>
+          </p>
+
+          <div class="img-block">
+            <img src="assets/HTY_06.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">
+            //
+            由動作可以看出過去的奏是真的抱得很大力，甚至讓現在的奏原本站立的姿勢向前傾了一些。
+          </p>
+
+          <h2>四人各自結尾</h2>
+
+          <p>接近結束的部分也很值得細品。</p>
+
+          <p>
+            這時的兩個らでん是面對面的模樣，已經不再是先前透過望遠鏡或貓眼查看的狀態了。現在的らでん臉上表情相較之前也放鬆許多。<br />
+            而在這之前有一個像是向上甩開的轉場，可以視為是先前圍繞在四周的攝影機已經被拋開（遠離那些不知本意為何的視線，只專注在自己身上）。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden05.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            //
+            兩人正式的面對面。此處的畫面有向上甩開，但由於靜態截圖無法看得很明顯。
+          </p>
+
+          <div class="img-block">
+            <img
+              src="assets/HTY_Raden06.png"
+              alt="MV內截圖"
+              object-fit:
+              cover;
+            />
+          </div>
+          <p class="img-caption">
+            // 畫面拉近到現在らでん的臉部，表情充滿安心與輕盈。
+          </p>
+
+          <h2>團體收尾</h2>
+
+          <p>(內文)</p>
+
+          <div class="img-block">
+            <img src="assets/HTY_02.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">// 圖片說明</p>
+
+          <h2>莉々華結束一幕</h2>
+
+          <p>(內文)</p>
+
+          <div class="img-block">
+            <img src="assets/HTY_02.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">// 圖片說明</p>
+
+          <h2>MV片頭與片尾</h2>
+
+          <p>(內文)</p>
+
+          <div class="img-block">
+            <img src="assets/HTY_02.png" alt="MV內截圖" object-fit: cover; />
+          </div>
+          <p class="img-caption">// 圖片說明</p>
+
+          <h2>結語</h2>
+
+          <p>(內文)</p>
+
+          <!-- Article nav -->
+          <div class="article-nav-row">
+            <div class="nav-arrow">
+              <span class="label">← Prev</span>
+              <a href="article-2.html">用 Godot 做出我的第一款完整遊戲</a>
+            </div>
+            <div class="nav-arrow right">
+              <span class="label">Next →</span>
+              <a href="article-3.html">CSS Grid 與那些我踩過的坑</a>
+            </div>
+          </div>
+        </div>
+        <!-- /article-content -->
+
+        <!-- ── SIDEBAR ─────────────────────────────────── -->
+        <aside class="article-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-title">目錄</div>
+            <ul class="toc-list">
+              <li onclick="scrollTo(0, 0)">前言</li>
+              <li>整體MV背景</li>
+              <li>關於MV中的色彩</li>
+              <li>らでん部分</li>
+              <li>はじめ部分</li>
+              <li>莉々華部分</li>
+              <li>奏部分</li>
+              <li>轉折處</li>
+              <li>四人各自結尾</li>
+              <li>團體收尾</li>
+              <li>莉々華結束一幕</li>
+              <li>MV片尾與片頭</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">Tags</div>
+            <div class="tag-row">
+              <span class="tag-chip">廢墟</span>
+              <span class="tag-chip">Liminal</span>
+              <span class="tag-chip">環境敘事</span>
+              <span class="tag-chip">創作思考</span>
+              <span class="tag-chip">遊戲設計</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">Back</div>
+            <a
+              href="../blog.html"
+              style="
+                font-size: 0.8rem;
+                color: var(--cyan);
+                font-family: &quot;Share Tech Mono&quot;, monospace;
+                letter-spacing: 0.06em;
+              "
+            >
+              ← 返回文章列表
+            </a>
+          </div>
+        </aside>
+      </div>
+      <!-- /article-body-wrap -->
+    </main>
+
+    <script>
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      (function animateRing() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateRing);
+      })();
+      document.querySelectorAll("a,button,li").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.classList.add("expanded");
+          ring.classList.add("expanded");
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.classList.remove("expanded");
+          ring.classList.remove("expanded");
+        });
+      });
+      const toggle = document.getElementById("themeToggle");
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      toggle.textContent = saved === "dark" ? "☽" : "☀";
+      toggle.addEventListener("click", () => {
+        const curr = document.documentElement.getAttribute("data-theme");
+        const next = curr === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        toggle.textContent = next === "dark" ? "☽" : "☀";
+      });
+    </script>
+  </body>
+</html>

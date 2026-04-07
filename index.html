@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main — Your Name</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <!-- ── CURSOR ────────────────────────────────────────── -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── ANNOUNCEMENT BAR (index only) ──────────────────── -->
+    <div class="announce-bar">
+      <div class="announce-track">
+        <span>📢 正在開發純文字遊戲：廢墟物語 ／ 網站持續更新中</span>
+      </div>
+    </div>
+
+    <!-- ── NAVIGATION ─────────────────────────────────────── -->
+    <nav>
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Web Name</a>
+        <div class="nav-links">
+          <a href="work.html" class="nav-link">Works</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+          <a href="about.html" class="nav-link">About</a>
+          <button class="theme-toggle" id="themeToggle" title="切換主題">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── MAIN ───────────────────────────────────────────── -->
+    <main>
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-avatar">
+          <!-- 替換為您的頭像圖片 -->
+          <img src="Profile_Square.png" alt="Avatar" />
+        </div>
+        <div>
+          <h1 class="hero-name">Your Name</h1>
+          <p class="hero-tagline">
+            遊戲開發 ／ 隨筆塗鴉 ／ 寫作<br />
+            <span class="hero-tag-accent"
+              >想試著用文字描繪出有血有肉的畫面。</span
+            >
+          </p>
+        </div>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="info-grid">
+        <!-- About Card -->
+        <div class="card">
+          <div class="card-title">About</div>
+          <p class="card-text">
+            嗨！我是 GK，<br />
+            正在當有著畢業學分焦慮的水深火熱大四生。<br /><br />
+            會寫作，會寫遊戲，會畫點廢圖，也會一點點日文，總而言之就是技能樹雜到不行的一個人。<br /><br />
+            閒暇時間喜歡畫圖、寫遊戲、做白日夢，或是瘋狂跟holomem的直播。<br /><br />
+            （當然也會記得來更新網站啦）
+          </p>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="card">
+          <div class="card-title">Skills</div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">網頁程式</span>
+              <span class="skill-val">50/100</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-fill" style="--w: 50%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">畫圖</span>
+              <span class="skill-val">36/100</span>
+            </div>
+            <div class="skill-bar">
+              <div
+                class="skill-fill"
+                style="--w: 36%; animation-delay: 0.15s"
+              ></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">遊戲開發</span>
+              <span class="skill-val">25/100</span>
+            </div>
+            <div class="skill-bar">
+              <div
+                class="skill-fill"
+                style="--w: 25%; animation-delay: 0.3s"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <!-- /skills card -->
+      </div>
+      <!-- /info-grid -->
+    </main>
+
+    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
+    <script>
+      /* ── Cursor ── */
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+
+      (function animateRing() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateRing);
+      })();
+
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.classList.add("expanded");
+          ring.classList.add("expanded");
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.classList.remove("expanded");
+          ring.classList.remove("expanded");
+        });
+      });
+
+      /* ── Theme Toggle ── */
+      const toggle = document.getElementById("themeToggle");
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      toggle.textContent = saved === "dark" ? "☽" : "☀";
+
+      toggle.addEventListener("click", () => {
+        const curr = document.documentElement.getAttribute("data-theme");
+        const next = curr === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        toggle.textContent = next === "dark" ? "☽" : "☀";
+      });
+    </script>
+  </body>
+</html>

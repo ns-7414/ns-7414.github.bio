@@ -1,0 +1,938 @@
+/* ================================================================
+   PERSONAL PORTFOLIO + BLOG — GAME STYLE
+   style.css
+   ================================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700;900&family=Share+Tech+Mono&display=swap");
+
+/* ── VARIABLES ─────────────────────────────────────────────── */
+:root {
+  --bg: #f0f0f6;
+  --bg2: #e4e4ec;
+  --card: #d8d8e4;
+  --card2: #c8c8d8;
+  --text: #1a1a28;
+  --text2: #5a5a78;
+  --nav-bg: rgba(180, 185, 228, 0.92);
+  --nav-border: rgba(160, 165, 220, 0.4);
+  --purple: #cf6ced;
+  --cyan: #00bcc7;
+  --green: #46ebac;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-md: rgba(0, 0, 0, 0.16);
+  --glow-p: rgba(207, 108, 237, 0.35);
+  --glow-c: rgba(0, 188, 199, 0.35);
+  --r: 12px;
+  --r-sm: 8px;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0a10;
+  --bg2: #14141e;
+  --card: #1c1c2c;
+  --card2: #262638;
+  --text: #e2e2f2;
+  --text2: #8080a8;
+  --nav-bg: rgba(12, 12, 24, 0.94);
+  --nav-border: rgba(60, 60, 100, 0.5);
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-md: rgba(0, 0, 0, 0.55);
+}
+
+/* ── RESET & BASE ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition:
+    background 0.35s,
+    color 0.35s;
+  cursor: none;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── CUSTOM CURSOR ─────────────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  background: var(--purple);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    background 0.2s,
+    transform 0.1s;
+  box-shadow: 0 0 6px var(--glow-p);
+}
+.cursor-ring {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  opacity: 0.65;
+  transition:
+    width 0.25s,
+    height 0.25s,
+    opacity 0.25s;
+}
+.cursor-dot.expanded {
+  width: 10px;
+  height: 10px;
+  background: var(--cyan);
+}
+.cursor-ring.expanded {
+  width: 36px;
+  height: 36px;
+  opacity: 0.35;
+}
+
+/* ── ANNOUNCEMENT BAR ──────────────────────────────────────── */
+.announce-bar {
+  text-align: center;
+  background: var(--green);
+  overflow: hidden;
+  padding: 7px 0;
+  position: relative;
+  z-index: 600;
+}
+.announce-track {
+  display: inline-flex;
+  white-space: nowrap;
+  /* animation: marquee 30s linear infinite; */
+}
+.announce-track span {
+  font-family: "Orbitron", monospace;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #0a200a;
+  padding: 0 48px;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── NAVIGATION ────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background 0.35s;
+}
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: "Orbitron", monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  transition: color 0.2s;
+}
+.logo:hover {
+  color: var(--cyan);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link {
+  font-family: "Orbitron", monospace;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  padding: 8px 14px;
+  position: relative;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-link.active {
+  color: var(--cyan);
+}
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+.nav-link:hover {
+  color: var(--cyan);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  margin-left: 10px;
+  background: var(--card);
+  border: 1px solid var(--card2);
+  color: var(--text);
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-sm);
+  cursor: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  background: var(--purple);
+  color: #fff;
+  border-color: var(--purple);
+  box-shadow: 0 0 10px var(--glow-p);
+}
+
+/* ── MAIN LAYOUT ───────────────────────────────────────────── */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 36px 28px 64px;
+  animation: fadeUp 0.4s ease-out;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── CARDS ─────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s;
+}
+.card:hover {
+  box-shadow:
+    0 6px 28px var(--shadow-md),
+    0 0 0 1px rgba(0, 188, 199, 0.18);
+}
+/* Game UI corner brackets */
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+.card::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--cyan);
+  border-left: 2px solid var(--cyan);
+}
+.card::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--purple);
+  border-right: 2px solid var(--purple);
+}
+
+.card-title {
+  font-family: "Orbitron", monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.card-text {
+  font-size: 0.84rem;
+  color: var(--text2);
+  line-height: 1.85;
+}
+
+/* ════════════════════════════════════════════════════════════
+   INDEX PAGE
+   ════════════════════════════════════════════════════════════ */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+.hero-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a90d9, #2060b0);
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 3px solid var(--cyan);
+  box-shadow:
+    0 0 18px var(--glow-c),
+    0 0 36px rgba(0, 188, 199, 0.15);
+}
+.hero-name {
+  font-family: "Orbitron", monospace;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.hero-tagline {
+  font-size: 0.88rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.hero-tag-accent {
+  color: var(--purple);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 20px;
+}
+
+/* ── SKILL BARS ──────────────────────────────────────────── */
+.skill-item {
+  margin-bottom: 20px;
+}
+.skill-item:last-child {
+  margin-bottom: 0;
+}
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+.skill-name {
+  font-size: 0.8rem;
+  color: var(--text2);
+  letter-spacing: 0.03em;
+}
+.skill-val {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.76rem;
+  color: var(--cyan);
+}
+.skill-bar {
+  height: 10px;
+  background: var(--card2);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.skill-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--glow-p);
+  animation: fillBar 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.skill-fill:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.skill-fill:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.skill-fill:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes fillBar {
+  to {
+    width: var(--w);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   WORK PAGE
+   ════════════════════════════════════════════════════════════ */
+.page-heading {
+  font-family: "Orbitron", monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  color: var(--text);
+}
+.page-heading .accent {
+  color: var(--purple);
+}
+
+.work-section {
+  margin-bottom: 44px;
+}
+.section-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--text2);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.section-label::before {
+  content: "// ";
+  color: var(--cyan);
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.work-card {
+  border-radius: var(--r);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #56c9c4;
+  position: relative;
+  display: block;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+.work-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 10px 28px var(--shadow-md),
+    0 0 14px var(--glow-c);
+}
+.work-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.work-card:hover img {
+  transform: scale(1.06);
+}
+.work-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+}
+.work-card:hover .work-card-overlay {
+  opacity: 1;
+}
+.work-card-label {
+  font-family: "Orbitron", monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+/* Color variants for placeholder cards */
+.work-card.c1 {
+  background: linear-gradient(135deg, #5ecfc9, #38b2ac);
+}
+.work-card.c2 {
+  background: linear-gradient(135deg, #69d2b5, #38b2ac);
+}
+.work-card.c3 {
+  background: linear-gradient(135deg, #5ecfc9, #2eaaa4);
+}
+.work-card.game-c {
+  background: linear-gradient(135deg, #4a9cc7, #2b78b0);
+}
+.work-card.web-c {
+  background: linear-gradient(135deg, #7b8fc7, #5567b0);
+}
+
+.more-link {
+  display: block;
+  text-align: right;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  transition:
+    color 0.2s,
+    letter-spacing 0.2s;
+}
+.more-link:hover {
+  color: var(--purple);
+  letter-spacing: 0.14em;
+}
+
+/* ── GAME DETAIL PAGE ──────────────────────────────────────── */
+.game-detail-hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+.game-screenshots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.game-screenshot {
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: var(--card);
+}
+.game-screenshot.main-shot {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/9;
+}
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.game-title {
+  font-family: "Orbitron", monospace;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+.game-tag {
+  display: inline-block;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+  letter-spacing: 0.06em;
+}
+.game-desc {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.85;
+}
+.game-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  color: #fff;
+  font-family: "Orbitron", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 12px 24px;
+  border-radius: var(--r-sm);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  width: fit-content;
+}
+.game-link-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* ════════════════════════════════════════════════════════════
+   ABOUT PAGE
+   ════════════════════════════════════════════════════════════ */
+.about-hero {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: flex-start;
+}
+.about-photo {
+  width: 168px;
+  min-width: 168px;
+  height: 210px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #5577cc, #2244aa);
+  overflow: hidden;
+  border: 2px solid var(--purple);
+  box-shadow:
+    0 0 22px var(--glow-p),
+    0 0 44px rgba(207, 108, 237, 0.1);
+  flex-shrink: 0;
+}
+.about-text {
+  flex: 1;
+}
+.about-quote {
+  font-family: "Orbitron", monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+.about-quote-sub {
+  font-size: 0.8rem;
+  color: var(--purple);
+  margin-bottom: 14px;
+  font-family: "Share Tech Mono", monospace;
+}
+.socials {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.social-btn {
+  width: 42px;
+  height: 42px;
+  background: var(--card);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 1.05rem;
+  border: 1px solid var(--card2);
+  transition: all 0.22s;
+  font-family: "Orbitron", monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.social-btn:hover {
+  background: var(--cyan);
+  color: #fff;
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px var(--glow-c);
+  transform: translateY(-2px);
+}
+.about-bio {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.9;
+}
+
+/* About bottom grid */
+.about-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Detailed skills */
+.skill-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--card2);
+  font-size: 0.82rem;
+}
+.skill-detail:last-child {
+  border-bottom: none;
+}
+.skill-detail-name {
+  flex: 1;
+  color: var(--text);
+}
+.stars {
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+.star-on {
+  color: var(--purple);
+}
+.star-off {
+  color: var(--card2);
+}
+
+/* Timeline */
+.timeline-title {
+  font-family: "Orbitron", monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.timeline {
+  position: relative;
+  padding-left: 26px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--cyan),
+    var(--purple),
+    transparent
+  );
+  border-radius: 2px;
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 26px;
+}
+.tl-item:last-child {
+  margin-bottom: 0;
+}
+.tl-dot {
+  position: absolute;
+  left: -23px;
+  top: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 8px var(--glow-c);
+  transition: background 0.2s;
+}
+.tl-item:hover .tl-dot {
+  background: var(--purple);
+}
+.tl-date {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--purple);
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.tl-event-title {
+  font-family: "Orbitron", monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.tl-desc {
+  font-size: 0.78rem;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BLOG PAGE
+   ════════════════════════════════════════════════════════════ */
+.filter-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 7px 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--card2);
+  background: transparent;
+  color: var(--text2);
+  font-size: 0.8rem;
+  cursor: none;
+  font-family: "Noto Sans TC", sans-serif;
+  letter-spacing: 0.04em;
+  transition: all 0.22s;
+}
+.filter-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 12px var(--glow-c);
+}
+
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.article-card {
+  display: flex;
+  gap: 0;
+  background: var(--card);
+  border-radius: var(--r);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid transparent;
+  transition:
+    transform 0.22s,
+    box-shadow 0.22s,
+    border-color 0.22s;
+}
+.article-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 6px 24px var(--shadow-md);
+  border-color: rgba(0, 188, 199, 0.25);
+}
+.article-thumb {
+  width: 134px;
+  min-width: 134px;
+  height: 116px;
+  background: linear-gradient(135deg, #5ecfc9, #38b2ac);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.article-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05));
+}
+.article-body {
+  padding: 16px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.article-cat {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--purple);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.article-title {
+  font-family: "Orbitron", monospace;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.article-excerpt {
+  font-size: 0.79rem;
+  color: var(--text2);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.article-date {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--cyan);
+  margin-top: 8px;
+  letter-spacing: 0.06em;
+}
+
+/* Article transition (hidden) */
+.article-card[style*="none"] {
+  display: none !important;
+}
+
+/* ── HIDDEN / UTIL ──────────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .work-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-hero {
+    flex-direction: column;
+  }
+  .about-photo {
+    width: 100%;
+    min-width: unset;
+    height: 220px;
+  }
+  .about-bottom {
+    grid-template-columns: 1fr;
+  }
+  .article-thumb {
+    width: 96px;
+    min-width: 96px;
+    height: 100px;
+  }
+  .game-detail-hero {
+    grid-template-columns: 1fr;
+  }
+  .nav-inner {
+    padding: 0 16px;
+  }
+  main {
+    padding: 24px 16px 48px;
+  }
+}

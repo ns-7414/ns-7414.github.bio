@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Title — Your Name</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── NAVIGATION ─────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Web Name</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link active">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="theme-toggle" id="themeToggle" title="切換主題">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <main>
+
+    <!-- Back link -->
+    <a href="work.html" style="
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.08em;
+      color: var(--cyan); margin-bottom: 28px;
+      transition: color 0.2s;
+    ">← Back to Works</a>
+
+    <!-- Game Hero -->
+    <div class="game-detail-hero">
+
+      <!-- Screenshots -->
+      <div class="game-screenshots">
+        <div class="game-screenshot main-shot" style="background: linear-gradient(135deg, #4a9cc7, #2b78b0);">
+          <!-- <img src="assets/game-screenshot-main.jpg" alt="主截圖"> -->
+        </div>
+        <div class="game-screenshot" style="background: linear-gradient(135deg, #5ecfc9, #38b2ac);">
+          <!-- <img src="assets/game-screenshot-2.jpg" alt="截圖 2"> -->
+        </div>
+        <div class="game-screenshot" style="background: linear-gradient(135deg, #7b8fc7, #5567b0);">
+          <!-- <img src="assets/game-screenshot-3.jpg" alt="截圖 3"> -->
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="game-info">
+        <h1 class="game-title">遊戲名稱</h1>
+
+        <div>
+          <span class="game-tag">Puzzle</span>
+          <span class="game-tag">Narrative</span>
+          <span class="game-tag">Godot 4</span>
+        </div>
+
+        <p class="game-desc">
+          在這裡填入遊戲的簡介文字。說明遊戲的玩法、世界觀、核心機制，
+          以及你在製作這款遊戲時的靈感來源。<br><br>
+          可以描述遊戲的獨特之處，讓訪客對你的作品有基本的認識，
+          進而點擊下方按鈕去體驗看看。
+        </p>
+
+        <a href="https://YOUR_GAME_LINK" target="_blank" class="game-link-btn">
+          ▶ &nbsp; Play Now
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    (function animateRing() {
+      rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('expanded'); ring.classList.add('expanded'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('expanded'); ring.classList.remove('expanded'); });
+    });
+    const toggle = document.getElementById('themeToggle');
+    const saved  = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☽' : '☀';
+    toggle.addEventListener('click', () => {
+      const curr = document.documentElement.getAttribute('data-theme');
+      const next = curr === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      toggle.textContent = next === 'dark' ? '☽' : '☀';
+    });
+  </script>
+
+</body>
+</html>

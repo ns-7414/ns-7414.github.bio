@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用 Godot 做出我的第一款完整遊戲 — Your Name</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      .article-header {
+        margin-bottom: 40px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--card2);
+        position: relative;
+      }
+      .article-header::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 72px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        border-radius: 2px;
+      }
+      .article-cat-tag {
+        display: inline-block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--cyan);
+        border: 1px solid var(--cyan);
+        padding: 3px 12px;
+        border-radius: 4px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .article-main-title {
+        font-family: "Orbitron", monospace;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: 0.03em;
+        line-height: 1.35;
+        margin-bottom: 16px;
+      }
+      .article-main-title .accent {
+        color: var(--purple);
+      }
+      .article-meta {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text2);
+        letter-spacing: 0.06em;
+        flex-wrap: wrap;
+      }
+      .article-meta .sep {
+        color: var(--card2);
+      }
+
+      .article-cover {
+        width: 100%;
+        aspect-ratio: 16/7;
+        background: linear-gradient(
+          135deg,
+          #2b78b0 0%,
+          #4a9cc7 50%,
+          #5567b0 100%
+        );
+        border-radius: var(--r);
+        overflow: hidden;
+        margin-bottom: 40px;
+        position: relative;
+      }
+      .article-cover-caption {
+        position: absolute;
+        bottom: 14px;
+        right: 18px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.06em;
+      }
+
+      .article-body-wrap {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 40px;
+        align-items: start;
+      }
+      @media (max-width: 700px) {
+        .article-body-wrap {
+          grid-template-columns: 1fr;
+        }
+        .article-sidebar {
+          order: -1;
+        }
+      }
+
+      .article-content h2 {
+        font-family: "Orbitron", monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--cyan);
+        letter-spacing: 0.08em;
+        margin: 36px 0 14px;
+        text-transform: uppercase;
+      }
+      .article-content h2::before {
+        content: "// ";
+        color: var(--purple);
+        opacity: 0.7;
+      }
+      .article-content p {
+        font-size: 0.92rem;
+        color: var(--text2);
+        line-height: 2;
+        margin-bottom: 18px;
+      }
+      .article-content p strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* Code block */
+      .code-block {
+        background: var(--bg2);
+        border-radius: var(--r-sm);
+        padding: 20px 22px;
+        margin: 24px 0;
+        position: relative;
+        border: 1px solid var(--card2);
+        overflow-x: auto;
+      }
+      .code-block::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--cyan);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .code-block pre {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.82rem;
+        line-height: 1.75;
+        color: var(--text);
+        white-space: pre;
+        margin: 0;
+      }
+      .code-kw {
+        color: var(--purple);
+      }
+      .code-fn {
+        color: var(--cyan);
+      }
+      .code-str {
+        color: #f0c060;
+      }
+      .code-cmt {
+        color: var(--text2);
+        font-style: italic;
+      }
+      .code-num {
+        color: #69d2b5;
+      }
+
+      /* Info boxes */
+      .highlight {
+        border-left: 3px solid var(--purple);
+        padding: 14px 20px;
+        background: var(--card);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin: 24px 0;
+        font-style: italic;
+        font-size: 0.9rem;
+        color: var(--text);
+        line-height: 1.9;
+      }
+      .highlight .quote-src {
+        display: block;
+        margin-top: 10px;
+        font-style: normal;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+      }
+
+      /* Tip / Warning box */
+      .tip-box {
+        border-radius: var(--r-sm);
+        padding: 14px 18px;
+        margin: 24px 0;
+        font-size: 0.84rem;
+        line-height: 1.8;
+        color: var(--text);
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .tip-box.tip {
+        background: rgba(0, 188, 199, 0.1);
+        border: 1px solid rgba(0, 188, 199, 0.3);
+      }
+      .tip-box.warn {
+        background: rgba(207, 108, 237, 0.1);
+        border: 1px solid rgba(207, 108, 237, 0.3);
+      }
+      .tip-icon {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        font-style: normal;
+        padding: 2px 8px;
+        border-radius: 4px;
+        flex-shrink: 0;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+      .tip-box.tip .tip-icon {
+        background: var(--cyan);
+        color: #fff;
+      }
+      .tip-box.warn .tip-icon {
+        background: var(--purple);
+        color: #fff;
+      }
+
+      .img-block {
+        margin: 28px 0;
+        border-radius: var(--r);
+        overflow: hidden;
+        aspect-ratio: 16/9;
+        background: linear-gradient(135deg, #4a9cc7 0%, #7b8fc7 100%);
+      }
+      .img-caption {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--text2);
+        letter-spacing: 0.05em;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      /* Progress steps */
+      .steps {
+        counter-reset: step;
+        margin: 28px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .step-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        counter-increment: step;
+      }
+      .step-num {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--purple), var(--cyan));
+        color: #fff;
+        font-family: "Orbitron", monospace;
+        font-size: 0.72rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .step-num::after {
+        content: counter(step, decimal-leading-zero);
+      }
+      .step-body {
+        flex: 1;
+        padding-top: 4px;
+      }
+      .step-title {
+        font-family: "Orbitron", monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+      }
+      .step-desc {
+        font-size: 0.82rem;
+        color: var(--text2);
+        line-height: 1.75;
+      }
+
+      .article-nav-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 52px;
+        padding-top: 24px;
+        border-top: 1px solid var(--card2);
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .nav-arrow {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-width: 48%;
+      }
+      .nav-arrow .label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .nav-arrow a {
+        font-size: 0.82rem;
+        color: var(--cyan);
+        line-height: 1.4;
+        transition: color 0.2s;
+      }
+      .nav-arrow a:hover {
+        color: var(--purple);
+      }
+      .nav-arrow.right {
+        text-align: right;
+        margin-left: auto;
+      }
+
+      /* Sidebar */
+      .article-sidebar {
+        position: sticky;
+        top: 80px;
+      }
+      .sidebar-card {
+        background: var(--card);
+        border-radius: var(--r);
+        padding: 18px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .sidebar-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+      }
+      .sidebar-title {
+        font-family: "Orbitron", monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--cyan);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .toc-list {
+        list-style: none;
+      }
+      .toc-list li {
+        font-size: 0.78rem;
+        color: var(--text2);
+        padding: 5px 0;
+        border-bottom: 1px solid var(--card2);
+        cursor: pointer;
+        transition: color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .toc-list li:last-child {
+        border-bottom: none;
+      }
+      .toc-list li:hover {
+        color: var(--cyan);
+      }
+      .toc-list li::before {
+        content: "▸ ";
+        color: var(--purple);
+        font-size: 0.65rem;
+      }
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag-chip {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        border: 1px solid var(--card2);
+        padding: 3px 10px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        transition: all 0.2s;
+      }
+      .tag-chip:hover {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <nav>
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Web Name</a>
+        <div class="nav-links">
+          <a href="work.html" class="nav-link">Works</a>
+          <a href="blog.html" class="nav-link active">Blog</a>
+          <a href="about.html" class="nav-link">About</a>
+          <button class="theme-toggle" id="themeToggle" title="切換主題">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="article-header">
+        <div class="article-cat-tag">遊戲開發</div>
+        <h1 class="article-main-title">
+          用 Godot 做出我的第一款完整遊戲<br />
+          <span class="accent">// 從卡關到 Release 的完整紀錄</span>
+        </h1>
+        <div class="article-meta">
+          <span>2025 . 06 . 14</span>
+          <span class="sep">|</span>
+          <span>閱讀時間約 12 分鐘</span>
+          <span class="sep">|</span>
+          <span>Your Name</span>
+        </div>
+      </div>
+
+      <div class="article-cover">
+        <!-- <img src="assets/godot-cover.jpg" alt="封面"> -->
+        <div class="article-cover-caption">Godot 4.x Editor 截圖</div>
+      </div>
+
+      <div class="article-body-wrap">
+        <div class="article-content">
+          <p>
+            在這篇文章寫出來之前，我已經開始了五款遊戲——其中四款爛尾。
+            第五款終於完成了，而且真的發布出去了。這篇文章是對整個過程的記錄，
+            包含那些讓我真正學到東西的失敗。
+          </p>
+
+          <p>
+            我使用的引擎是 <strong>Godot 4.2</strong>，語言是 GDScript。
+            遊戲類型是文字冒險加上簡單的場景切換，如果你在找動作遊戲或 3D
+            的相關心得， 這篇文章可能只有部分適用。
+          </p>
+
+          <h2>為什麼前四款都沒做完</h2>
+
+          <p>
+            回頭看那些失敗的專案，原因其實都一樣：<strong>範圍失控</strong>。
+            我在還沒有確定核心玩法的情況下，就開始規劃地圖、NPC 對話、支線任務、
+            不同結局……每個功能都很帥，但合在一起就是做不完。
+          </p>
+
+          <div class="tip-box warn">
+            <span class="tip-icon">WARN</span>
+            <span
+              >在確定核心循環（Core
+              Loop）可以正常運作並且<strong>好玩</strong>之前，
+              不要開始做任何「加分項目」。美術、音效、多結局都可以之後再加，
+              但核心玩法如果從一開始就不對，加再多東西也救不了。</span
+            >
+          </div>
+
+          <p>
+            第五款遊戲之所以完成，是因為我強迫自己在開發前先回答一個問題：
+            「如果這個遊戲只有一個房間、一個機制，它有沒有辦法是好玩的？」
+            當我能夠回答「有」的時候，才開始寫第一行程式碼。
+          </p>
+
+          <h2>專案架構與我踩過的坑</h2>
+
+          <p>
+            Godot
+            的場景系統一開始讓我很困惑，我花了大約一個禮拜才搞清楚應該如何組織節點。
+            以下是我最後採用的基本架構：
+          </p>
+
+          <div class="code-block" data-lang="GDScript">
+            <pre><span class="code-cmt"># 場景樹基本結構</span>
+<span class="code-kw">Game</span> (Node)
+  ├── <span class="code-fn">GameManager</span> (Node)        <span class="code-cmt"># 全域狀態管理</span>
+  ├── <span class="code-fn">UILayer</span> (CanvasLayer)     <span class="code-cmt"># HUD、對話框</span>
+  │   ├── DialogBox
+  │   └── StatusBar
+  └── <span class="code-fn">World</span> (Node2D)
+      ├── <span class="code-fn">CurrentRoom</span>           <span class="code-cmt"># 動態載入當前房間</span>
+      └── <span class="code-fn">Player</span> (CharacterBody2D)</pre>
+          </div>
+
+          <p>
+            <strong>GameManager</strong> 是我用來管理跨場景狀態的節點， 設定為
+            Autoload（自動載入）之後，不管切換到哪個場景都可以存取它的變數。
+            這個設計救了我非常多次，特別是在處理存檔系統的時候。
+          </p>
+
+          <div class="code-block" data-lang="GDScript">
+            <pre><span class="code-cmt"># GameManager.gd — 簡化版本</span>
+<span class="code-kw">extends</span> <span class="code-fn">Node</span>
+
+<span class="code-kw">var</span> player_flags: <span class="code-fn">Dictionary</span> = {}
+<span class="code-kw">var</span> current_chapter: <span class="code-fn">int</span> = <span class="code-num">0</span>
+
+<span class="code-kw">func</span> <span class="code-fn">set_flag</span>(key: <span class="code-fn">String</span>, value: <span class="code-fn">bool</span>) -> <span class="code-fn">void</span>:
+    player_flags[key] = value
+
+<span class="code-kw">func</span> <span class="code-fn">get_flag</span>(key: <span class="code-fn">String</span>) -> <span class="code-fn">bool</span>:
+    <span class="code-kw">return</span> player_flags.get(key, <span class="code-kw">false</span>)
+
+<span class="code-kw">func</span> <span class="code-fn">save_game</span>() -> <span class="code-fn">void</span>:
+    <span class="code-kw">var</span> save_data = {
+        <span class="code-str">"flags"</span>: player_flags,
+        <span class="code-str">"chapter"</span>: current_chapter
+    }
+    <span class="code-kw">var</span> file = <span class="code-fn">FileAccess</span>.open(<span class="code-str">"user://save.json"</span>, <span class="code-fn">FileAccess</span>.WRITE)
+    file.store_string(<span class="code-fn">JSON</span>.stringify(save_data))</pre>
+          </div>
+
+          <h2>對話系統的設計</h2>
+
+          <p>
+            這款遊戲大量依賴文字和對話，所以對話系統的設計是整個專案裡花時間最多的部分。
+            我最後採用的方案是把所有對話內容存在 JSON 檔裡，然後用一個通用的
+            DialogBox 場景來渲染。
+          </p>
+
+          <div class="steps">
+            <div class="step-item">
+              <div class="step-num"></div>
+              <div class="step-body">
+                <div class="step-title">定義對話資料格式</div>
+                <div class="step-desc">
+                  每段對話是一個陣列，每個元素包含說話者名稱、文字內容，以及可選的選項。選項本身也可以觸發
+                  flag 的變更。
+                </div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num"></div>
+              <div class="step-body">
+                <div class="step-title">建立通用 DialogBox 場景</div>
+                <div class="step-desc">
+                  用 RichTextLabel 顯示文字，支援 BBCode
+                  讓特定文字變色或加粗。打字機效果用 Timer + 逐字插入實現。
+                </div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num"></div>
+              <div class="step-body">
+                <div class="step-title">信號驅動的對話結束事件</div>
+                <div class="step-desc">
+                  對話結束後，DialogBox 發送
+                  <code>dialogue_finished</code>
+                  信號，讓各個場景可以自由決定後續要觸發什麼事件，而不是把邏輯寫死在對話系統裡。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tip-box tip">
+            <span class="tip-icon">TIP</span>
+            <span
+              >Godot 的信號（Signal）系統是整個引擎最好用的功能之一。
+              善用信號可以讓各個系統之間保持低耦合，要修改某個系統的時候不會連帶弄壞其他東西。</span
+            >
+          </div>
+
+          <h2>發布與事後反思</h2>
+
+          <p>
+            遊戲最後發布在 itch.io 上，上線後的第一個禮拜沒什麼人玩， 後來在 X
+            上有人分享才稍微有了些流量。
+            最常收到的回饋是「文字太多了」——這讓我意識到，
+            我習慣的敘事節奏和一般玩家期待的體驗之間存在一段距離。
+          </p>
+
+          <p>
+            但最重要的收穫不是這些外部的回饋，而是：<strong>我終於做完了一款遊戲</strong>。
+            完成品哪怕只有六十分，也比一百個精心規劃但從未完成的企畫書更有價值。
+            下一款我還是會繼續用 Godot，但會更早設定 scope 的上限。
+          </p>
+
+          <div class="article-nav-row">
+            <div class="nav-arrow">
+              <span class="label">← Prev</span>
+              <a href="article-3.html">CSS Grid 與那些我踩過的坑</a>
+            </div>
+            <div class="nav-arrow right">
+              <span class="label">Next →</span>
+              <a href="article-1.html">關於廢墟的凝視</a>
+            </div>
+          </div>
+        </div>
+        <!-- /article-content -->
+
+        <aside class="article-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-title">目錄</div>
+            <ul class="toc-list">
+              <li>前言</li>
+              <li>為什麼前四款沒做完</li>
+              <li>專案架構與踩坑</li>
+              <li>對話系統設計</li>
+              <li>發布與反思</li>
+            </ul>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title">Tags</div>
+            <div class="tag-row">
+              <span class="tag-chip">Godot 4</span>
+              <span class="tag-chip">GDScript</span>
+              <span class="tag-chip">遊戲開發</span>
+              <span class="tag-chip">獨立遊戲</span>
+              <span class="tag-chip">itch.io</span>
+              <span class="tag-chip">Devlog</span>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title">Back</div>
+            <a
+              href="../blog.html"
+              style="
+                font-size: 0.8rem;
+                color: var(--cyan);
+                font-family: &quot;Share Tech Mono&quot;, monospace;
+                letter-spacing: 0.06em;
+              "
+              >← 返回文章列表</a
+            >
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const dot = document.getElementById("cursorDot"),
+        ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      (function a() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(a);
+      })();
+      document.querySelectorAll("a,button,li").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.classList.add("expanded");
+          ring.classList.add("expanded");
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.classList.remove("expanded");
+          ring.classList.remove("expanded");
+        });
+      });
+      const toggle = document.getElementById("themeToggle");
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      toggle.textContent = saved === "dark" ? "☽" : "☀";
+      toggle.addEventListener("click", () => {
+        const curr = document.documentElement.getAttribute("data-theme");
+        const next = curr === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        toggle.textContent = next === "dark" ? "☽" : "☀";
+      });
+    </script>
+  </body>
+</html>

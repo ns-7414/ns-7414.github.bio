@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Your Name</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Font Awesome 6 for social icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ── CURSOR ────────────────────────────────────────── -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── NAVIGATION ─────────────────────────────────────── -->
+    <nav>
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Web Name</a>
+        <div class="nav-links">
+          <a href="work.html" class="nav-link">Works</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+          <a href="about.html" class="nav-link active">About</a>
+          <button class="theme-toggle" id="themeToggle" title="切換主題">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── MAIN ───────────────────────────────────────────── -->
+    <main>
+      <h1 class="page-heading">About <span class="accent">Me</span></h1>
+
+      <!-- ═══ Hero Section ════════════════════════════════════ -->
+      <div class="about-hero">
+        <!-- Photo -->
+        <div class="about-photo">
+          <img src="Profile_Ret.png" alt="Your Name" />
+        </div>
+
+        <!-- Text Block -->
+        <div class="about-text">
+          <div class="about-quote">
+            「 Jedem Anfang wohnt ein Zauber inne. 」
+          </div>
+          <div class="about-quote-sub">— Hermann Karl Hesse</div>
+
+          <!-- Social Buttons -->
+          <div class="socials">
+            <a
+              href="https://x.com/none_shadow01"
+              target="_blank"
+              class="social-btn"
+              title="X (Twitter)"
+            >
+              <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a
+              href="https://www.threads.com/@ns7414_"
+              target="_blank"
+              class="social-btn"
+              title="Threads"
+            >
+              <i class="fa-brands fa-threads"></i>
+            </a>
+            <!-- Pixiv 無 FA 圖示，使用自訂文字 -->
+            <a
+              href="https://www.pixiv.net/users/71376239"
+              target="_blank"
+              class="social-btn"
+              title="Pixiv"
+            >
+              Pv
+            </a>
+            <a
+              href="https://github.com/ns-7414"
+              target="_blank"
+              class="social-btn"
+              title="GitHub"
+            >
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
+
+          <!-- Bio -->
+          <p class="about-bio">
+            嗨，我是 GK。<br /><br />
+            我喜歡製造各種形式的作品——從一張插畫到一款互動遊戲，更甚至短短一段文字、一篇故事都是我用來表達想法的媒介。
+            只要閒下來就是不停深度思考，我需要一個好的出口 ——
+            於是我選擇了創作。<br /><br />
+            高中就讀三類組，大學想不開選了藝術科系
+            ，即便我沒有任何藝術基礎。到現在作為一個稱職的Z世代，我利用網路學我想學，做我想做。<br /><br />
+            正在接觸的有：日文、插畫、寫作、製作遊戲（Twine/Godot）、前/後端程式技術。<br /><br />
+            目前正在開發中的專案包含：一個敘事向的純文字遊戲，以及這個網站本身。
+          </p>
+        </div>
+      </div>
+
+      <!-- ═══ Bottom Grid: Skills + Timeline ═════════════════ -->
+      <div class="about-bottom">
+        <!-- Detailed Skills Card -->
+        <div class="card">
+          <div class="card-title">Skills</div>
+
+          <div class="skill-detail">
+            <span class="skill-detail-name">數位插畫</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span>
+            </span>
+          </div>
+          <div class="skill-detail">
+            <span class="skill-detail-name">角色設計</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-off">★</span>
+            </span>
+          </div>
+          <div class="skill-detail">
+            <span class="skill-detail-name">遊戲開發 (Twine / Godot)</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-off">★</span>
+            </span>
+          </div>
+          <div class="skill-detail">
+            <span class="skill-detail-name">敘事設計</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-off">★</span>
+            </span>
+          </div>
+          <div class="skill-detail">
+            <span class="skill-detail-name">網頁設計 (HTML/CSS/JS)</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-on">★</span><span class="star-off">★</span
+              ><span class="star-off">★</span>
+            </span>
+          </div>
+          <div class="skill-detail">
+            <span class="skill-detail-name">音效設計</span>
+            <span class="stars">
+              <span class="star-on">★</span><span class="star-on">★</span
+              ><span class="star-off">★</span><span class="star-off">★</span
+              ><span class="star-off">★</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div>
+          <div class="timeline-title">Timeline</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-date">2025 . 06</div>
+              <div class="tl-event-title">近期里程碑名稱</div>
+              <div class="tl-desc">
+                在這裡描述這個事件或成就的細節，例如完成了某個遊戲的開發、參加了某個展覽等等。
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-date">2025 . 03</div>
+              <div class="tl-event-title">另一個里程碑</div>
+              <div class="tl-desc">
+                在這裡描述這個事件或成就的細節，可以是個人創作、學習新技能，或是完成了某個重要的專案。
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-date">2024 . 10</div>
+              <div class="tl-event-title">開始了某件事情</div>
+              <div class="tl-desc">
+                可以填入您開始一個長期計畫、加入某個社群，或決定認真投入某個領域的時間點。
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-date">2024 . 04</div>
+              <div class="tl-event-title">更早期的事</div>
+              <div class="tl-desc">
+                時間軸可以向下無限延伸，依照需求持續新增事件即可，較早的事件位於下方。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /about-bottom -->
+    </main>
+
+    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
+    <script>
+      /* ── Cursor ── */
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      (function animateRing() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateRing);
+      })();
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.classList.add("expanded");
+          ring.classList.add("expanded");
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.classList.remove("expanded");
+          ring.classList.remove("expanded");
+        });
+      });
+
+      /* ── Theme Toggle ── */
+      const toggle = document.getElementById("themeToggle");
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      toggle.textContent = saved === "dark" ? "☽" : "☀";
+      toggle.addEventListener("click", () => {
+        const curr = document.documentElement.getAttribute("data-theme");
+        const next = curr === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        toggle.textContent = next === "dark" ? "☽" : "☀";
+      });
+    </script>
+  </body>
+</html>

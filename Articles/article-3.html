@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Grid 與那些我踩過的坑 — Your Name</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      .article-header {
+        margin-bottom: 40px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--card2);
+        position: relative;
+      }
+      .article-header::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 72px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--purple), var(--cyan));
+        border-radius: 2px;
+      }
+      .article-cat-tag {
+        display: inline-block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--purple);
+        border: 1px solid var(--purple);
+        padding: 3px 12px;
+        border-radius: 4px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .article-main-title {
+        font-family: "Orbitron", monospace;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: 0.03em;
+        line-height: 1.35;
+        margin-bottom: 16px;
+      }
+      .article-main-title .accent {
+        color: var(--cyan);
+      }
+      .article-meta {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text2);
+        letter-spacing: 0.06em;
+        flex-wrap: wrap;
+      }
+      .article-meta .sep {
+        color: var(--card2);
+      }
+
+      .article-cover {
+        width: 100%;
+        aspect-ratio: 16/7;
+        background: linear-gradient(
+          135deg,
+          #7b8fc7 0%,
+          #5567b0 40%,
+          #cf6ced 100%
+        );
+        border-radius: var(--r);
+        overflow: hidden;
+        margin-bottom: 40px;
+        position: relative;
+      }
+      /* Grid pattern overlay on cover */
+      .article-cover::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .article-cover-caption {
+        position: absolute;
+        bottom: 14px;
+        right: 18px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.06em;
+      }
+
+      .article-body-wrap {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 40px;
+        align-items: start;
+      }
+      @media (max-width: 700px) {
+        .article-body-wrap {
+          grid-template-columns: 1fr;
+        }
+        .article-sidebar {
+          order: -1;
+        }
+      }
+
+      .article-content h2 {
+        font-family: "Orbitron", monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--cyan);
+        letter-spacing: 0.08em;
+        margin: 36px 0 14px;
+        text-transform: uppercase;
+      }
+      .article-content h2::before {
+        content: "// ";
+        color: var(--purple);
+        opacity: 0.7;
+      }
+      .article-content h3 {
+        font-family: "Orbitron", monospace;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+        margin: 22px 0 10px;
+      }
+      .article-content p {
+        font-size: 0.92rem;
+        color: var(--text2);
+        line-height: 2;
+        margin-bottom: 18px;
+      }
+      .article-content p strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* Code block */
+      .code-block {
+        background: var(--bg2);
+        border-radius: var(--r-sm);
+        padding: 20px 22px;
+        margin: 24px 0;
+        position: relative;
+        border: 1px solid var(--card2);
+        overflow-x: auto;
+      }
+      .code-block::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--purple);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .code-block pre {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.82rem;
+        line-height: 1.75;
+        color: var(--text);
+        white-space: pre;
+        margin: 0;
+      }
+      .code-kw {
+        color: var(--purple);
+      }
+      .code-val {
+        color: var(--cyan);
+      }
+      .code-str {
+        color: #f0c060;
+      }
+      .code-cmt {
+        color: var(--text2);
+        font-style: italic;
+      }
+      .code-num {
+        color: #69d2b5;
+      }
+      .code-prop {
+        color: #c7a44a;
+      }
+
+      /* Visual demo grid */
+      .demo-box {
+        background: var(--card);
+        border-radius: var(--r);
+        padding: 20px;
+        margin: 24px 0;
+        border: 1px solid var(--card2);
+      }
+      .demo-label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .demo-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .demo-grid-auto {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+      }
+      .demo-cell {
+        height: 44px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(255, 255, 255, 0.9);
+        letter-spacing: 0.06em;
+      }
+      .demo-cell.c1 {
+        background: rgba(207, 108, 237, 0.65);
+      }
+      .demo-cell.c2 {
+        background: rgba(0, 188, 199, 0.65);
+      }
+      .demo-cell.c3 {
+        background: rgba(61, 220, 115, 0.65);
+      }
+      .demo-cell.c4 {
+        background: rgba(207, 108, 237, 0.35);
+      }
+      .demo-cell.span2 {
+        grid-column: span 2;
+      }
+
+      .highlight {
+        border-left: 3px solid var(--purple);
+        padding: 14px 20px;
+        background: var(--card);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin: 24px 0;
+        font-size: 0.9rem;
+        color: var(--text);
+        line-height: 1.9;
+      }
+      .highlight .quote-src {
+        display: block;
+        margin-top: 10px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+      }
+
+      .tip-box {
+        border-radius: var(--r-sm);
+        padding: 14px 18px;
+        margin: 24px 0;
+        font-size: 0.84rem;
+        line-height: 1.8;
+        color: var(--text);
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .tip-box.tip {
+        background: rgba(0, 188, 199, 0.1);
+        border: 1px solid rgba(0, 188, 199, 0.3);
+      }
+      .tip-box.warn {
+        background: rgba(207, 108, 237, 0.1);
+        border: 1px solid rgba(207, 108, 237, 0.3);
+      }
+      .tip-icon {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        font-style: normal;
+        padding: 2px 8px;
+        border-radius: 4px;
+        flex-shrink: 0;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+      .tip-box.tip .tip-icon {
+        background: var(--cyan);
+        color: #fff;
+      }
+      .tip-box.warn .tip-icon {
+        background: var(--purple);
+        color: #fff;
+      }
+
+      /* Comparison table */
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 24px 0;
+        font-size: 0.82rem;
+      }
+      .compare-table th {
+        background: var(--card2);
+        font-family: "Orbitron", monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--cyan);
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 2px solid var(--purple);
+      }
+      .compare-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--card2);
+        color: var(--text2);
+        line-height: 1.6;
+      }
+      .compare-table tr:last-child td {
+        border-bottom: none;
+      }
+      .compare-table tr:hover td {
+        background: var(--card);
+      }
+      .ok {
+        color: #3ddc73;
+        font-weight: 600;
+      }
+      .bad {
+        color: var(--purple);
+        font-weight: 600;
+      }
+
+      .article-nav-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 52px;
+        padding-top: 24px;
+        border-top: 1px solid var(--card2);
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .nav-arrow {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-width: 48%;
+      }
+      .nav-arrow .label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .nav-arrow a {
+        font-size: 0.82rem;
+        color: var(--cyan);
+        line-height: 1.4;
+        transition: color 0.2s;
+      }
+      .nav-arrow a:hover {
+        color: var(--purple);
+      }
+      .nav-arrow.right {
+        text-align: right;
+        margin-left: auto;
+      }
+
+      /* Sidebar */
+      .article-sidebar {
+        position: sticky;
+        top: 80px;
+      }
+      .sidebar-card {
+        background: var(--card);
+        border-radius: var(--r);
+        padding: 18px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .sidebar-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--purple), var(--cyan));
+      }
+      .sidebar-title {
+        font-family: "Orbitron", monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--cyan);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .toc-list {
+        list-style: none;
+      }
+      .toc-list li {
+        font-size: 0.78rem;
+        color: var(--text2);
+        padding: 5px 0;
+        border-bottom: 1px solid var(--card2);
+        cursor: pointer;
+        transition: color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .toc-list li:last-child {
+        border-bottom: none;
+      }
+      .toc-list li:hover {
+        color: var(--cyan);
+      }
+      .toc-list li::before {
+        content: "▸ ";
+        color: var(--purple);
+        font-size: 0.65rem;
+      }
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag-chip {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--text2);
+        border: 1px solid var(--card2);
+        padding: 3px 10px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        transition: all 0.2s;
+      }
+      .tag-chip:hover {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <nav>
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Web Name</a>
+        <div class="nav-links">
+          <a href="work.html" class="nav-link">Works</a>
+          <a href="blog.html" class="nav-link active">Blog</a>
+          <a href="about.html" class="nav-link">About</a>
+          <button class="theme-toggle" id="themeToggle" title="切換主題">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="article-header">
+        <div class="article-cat-tag">網頁設計</div>
+        <h1 class="article-main-title">
+          CSS Grid 與那些我踩過的坑<br />
+          <span class="accent">// 用視覺化方式學懂 Grid 佈局</span>
+        </h1>
+        <div class="article-meta">
+          <span>2025 . 05 . 28</span>
+          <span class="sep">|</span>
+          <span>閱讀時間約 10 分鐘</span>
+          <span class="sep">|</span>
+          <span>Your Name</span>
+        </div>
+      </div>
+
+      <div class="article-cover">
+        <!-- <img src="assets/css-grid-cover.jpg" alt="封面"> -->
+        <div class="article-cover-caption">
+          // grid-template-columns: repeat(auto-fill, minmax(...))
+        </div>
+      </div>
+
+      <div class="article-body-wrap">
+        <div class="article-content">
+          <p>
+            我學 CSS Grid 學了三次。第一次看文件，第二次跟著教學做，
+            第三次是在做這個網站的過程中真的用起來——然後才算是真的懂了。
+            這篇文章是寫給「看文件看不懂、跟教學跟不上」的人，
+            我會用視覺化的方式解釋我覺得最重要的幾個概念。
+          </p>
+
+          <h2>Grid 到底在解決什麼問題</h2>
+
+          <p>
+            在 Grid 出現之前，要做複雜的二維佈局（既要控制橫向，也要控制縱向），
+            通常要靠 float、position，或者 Flexbox 巢狀嵌套。這些方法都有缺點：
+            float 很難控制、position 脫離文件流、Flexbox 本質上是一維的。
+          </p>
+
+          <p>
+            <strong
+              >Grid
+              的核心概念是：把容器切成格子，然後告訴每個子元素要佔哪些格子。</strong
+            >
+            聽起來很簡單，但理解這個心智模型之後，很多以前覺得麻煩的佈局問題都消失了。
+          </p>
+
+          <h2>最基本的三個屬性</h2>
+
+          <h3>① grid-template-columns</h3>
+
+          <p>定義欄的數量與寬度，是 Grid 裡最常用的屬性。</p>
+
+          <div class="code-block" data-lang="CSS">
+            <pre><span class="code-cmt">/* 三欄等寬 */</span>
+<span class="code-prop">.container</span> {
+  <span class="code-kw">display</span>: <span class="code-val">grid</span>;
+  <span class="code-kw">grid-template-columns</span>: <span class="code-val">repeat</span>(<span class="code-num">3</span>, <span class="code-num">1</span><span class="code-val">fr</span>);
+  <span class="code-kw">gap</span>: <span class="code-num">16</span><span class="code-val">px</span>;
+}</pre>
+          </div>
+
+          <div class="demo-box">
+            <div class="demo-label">// 三欄等寬示意</div>
+            <div class="demo-grid-3">
+              <div class="demo-cell c1">1fr</div>
+              <div class="demo-cell c2">1fr</div>
+              <div class="demo-cell c3">1fr</div>
+              <div class="demo-cell c1">1fr</div>
+              <div class="demo-cell c2">1fr</div>
+              <div class="demo-cell c3">1fr</div>
+            </div>
+          </div>
+
+          <p>
+            <code>fr</code> 是 fraction 的縮寫，意思是「剩餘空間的幾份」。
+            <code>repeat(3, 1fr)</code> 就是把容器的寬度平分成三等份。
+            如果你想要左側固定、右側自動填滿，可以寫 <code>200px 1fr</code>。
+          </p>
+
+          <h3>② auto-fill 與 auto-fit</h3>
+
+          <p>
+            這是我踩過最多次坑的地方。這兩個關鍵字都可以搭配
+            <code>minmax()</code> 使用， 讓 Grid
+            自動決定要放幾欄，實現響應式佈局。
+          </p>
+
+          <div class="code-block" data-lang="CSS">
+            <pre><span class="code-cmt">/* 自動填滿，每格最窄 120px */</span>
+<span class="code-prop">.auto-grid</span> {
+  <span class="code-kw">display</span>: <span class="code-val">grid</span>;
+  <span class="code-kw">grid-template-columns</span>: <span class="code-val">repeat</span>(<span class="code-val">auto-fill</span>, <span class="code-val">minmax</span>(<span class="code-num">120</span><span class="code-val">px</span>, <span class="code-num">1</span><span class="code-val">fr</span>));
+  <span class="code-kw">gap</span>: <span class="code-num">8</span><span class="code-val">px</span>;
+}</pre>
+          </div>
+
+          <div class="demo-box">
+            <div class="demo-label">
+              // auto-fill — 根據容器寬度自動計算欄數
+            </div>
+            <div class="demo-grid-auto">
+              <div class="demo-cell c1">A</div>
+              <div class="demo-cell c2">B</div>
+              <div class="demo-cell c3">C</div>
+              <div class="demo-cell c4">D</div>
+              <div class="demo-cell c1">E</div>
+            </div>
+          </div>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>關鍵字</th>
+                <th>空欄格的處理方式</th>
+                <th>適用情境</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>auto-fill</code></td>
+                <td>保留空格（格子存在，但是空的）</td>
+                <td>元素數量不固定，需要維持格線對齊</td>
+              </tr>
+              <tr>
+                <td><code>auto-fit</code></td>
+                <td>折疊空格（現有元素自動拉伸填滿）</td>
+                <td>少量元素，希望它們撐滿整排</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>③ grid-column 與 grid-row（讓元素跨格）</h3>
+
+          <p>
+            這是 Grid 最強大的功能之一，可以讓特定元素橫跨多個欄位或多個列。
+          </p>
+
+          <div class="code-block" data-lang="CSS">
+            <pre><span class="code-cmt">/* 讓第一個子元素佔滿兩欄 */</span>
+<span class="code-prop">.feature-card</span> {
+  <span class="code-kw">grid-column</span>: <span class="code-val">span</span> <span class="code-num">2</span>;   <span class="code-cmt">/* 或寫 1 / 3 */</span>
+  <span class="code-kw">grid-row</span>: <span class="code-val">span</span> <span class="code-num">2</span>;      <span class="code-cmt">/* 同時跨兩列 */</span>
+}</pre>
+          </div>
+
+          <div class="demo-box">
+            <div class="demo-label">// span 2 示意</div>
+            <div class="demo-grid-3">
+              <div class="demo-cell c1 span2">span 2</div>
+              <div class="demo-cell c3">1fr</div>
+              <div class="demo-cell c2">1fr</div>
+              <div class="demo-cell c3">1fr</div>
+              <div class="demo-cell c1">1fr</div>
+            </div>
+          </div>
+
+          <h2>Grid 最容易踩到的坑</h2>
+
+          <div class="highlight">
+            Grid 是作用在「容器」和「直接子元素」之間的關係。 孫元素不會自動參與
+            Grid 佈局，除非你也對它的父元素設定 <code>display: grid</code>。
+            很多奇怪的排版問題，都是因為搞錯了「誰是 Grid 容器」。
+          </div>
+
+          <div class="tip-box warn">
+            <span class="tip-icon">WARN</span>
+            <span
+              >在 Grid 容器內，子元素的 <code>float</code> 會失效。
+              同樣地，<code>display: inline-block</code> 也沒有作用。
+              這是刻意的設計，但如果你在 Grid 裡還試著用 float
+              排版，會讓你很困惑。</span
+            >
+          </div>
+
+          <div class="tip-box tip">
+            <span class="tip-icon">TIP</span>
+            <span
+              >瀏覽器開發者工具（DevTools）現在對 Grid 的視覺化支援非常好。 在
+              Chrome 或 Firefox 裡選取 Grid 容器，旁邊會出現一個 Grid 的 badge，
+              點下去就會在頁面上顯示格線，是學 Grid 最好用的工具。</span
+            >
+          </div>
+
+          <h2>這個網站怎麼用 Grid</h2>
+
+          <p>
+            這個作品集網站的主要佈局都是用 Grid 做的。 主頁的卡片區塊是
+            <code>grid-template-columns: 1fr 1.15fr</code>，
+            讓右側的技能卡片稍微寬一點。文章頁面的正文加側邊欄是
+            <code>1fr 200px</code>，在手機上則用 media query 切換成單欄。
+          </p>
+
+          <p>
+            最有趣的是作品集頁面的圖片格子，用了
+            <code>repeat(3, 1fr)</code> 加上 統一的
+            <code>aspect-ratio: 4/3</code>，不管圖片本身的尺寸是多少，
+            都能保持整齊的格狀排列。這個組合在做作品集類型的網頁時非常好用。
+          </p>
+
+          <div class="article-nav-row">
+            <div class="nav-arrow">
+              <span class="label">← Prev</span>
+              <a href="article-1.html">關於廢墟的凝視</a>
+            </div>
+            <div class="nav-arrow right">
+              <span class="label">Next →</span>
+              <a href="article-2.html">用 Godot 做出我的第一款完整遊戲</a>
+            </div>
+          </div>
+        </div>
+        <!-- /article-content -->
+
+        <aside class="article-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-title">目錄</div>
+            <ul class="toc-list">
+              <li>前言</li>
+              <li>Grid 解決的問題</li>
+              <li>三個核心屬性</li>
+              <li>常見的坑</li>
+              <li>這個網站的應用</li>
+            </ul>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title">Tags</div>
+            <div class="tag-row">
+              <span class="tag-chip">CSS</span>
+              <span class="tag-chip">Grid</span>
+              <span class="tag-chip">Layout</span>
+              <span class="tag-chip">前端</span>
+              <span class="tag-chip">網頁設計</span>
+              <span class="tag-chip">響應式</span>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title">Back</div>
+            <a
+              href="../blog.html"
+              style="
+                font-size: 0.8rem;
+                color: var(--cyan);
+                font-family: &quot;Share Tech Mono&quot;, monospace;
+                letter-spacing: 0.06em;
+              "
+              >← 返回文章列表</a
+            >
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const dot = document.getElementById("cursorDot"),
+        ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      (function a() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(a);
+      })();
+      document.querySelectorAll("a,button,li").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.classList.add("expanded");
+          ring.classList.add("expanded");
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.classList.remove("expanded");
+          ring.classList.remove("expanded");
+        });
+      });
+      const toggle = document.getElementById("themeToggle");
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      toggle.textContent = saved === "dark" ? "☽" : "☀";
+      toggle.addEventListener("click", () => {
+        const curr = document.documentElement.getAttribute("data-theme");
+        const next = curr === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        toggle.textContent = next === "dark" ? "☽" : "☀";
+      });
+    </script>
+  </body>
+</html>

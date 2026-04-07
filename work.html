@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Works — Your Name</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- ── CURSOR ────────────────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── NAVIGATION ─────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Web Name</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link active">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="theme-toggle" id="themeToggle" title="切換主題">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <main>
+    <h1 class="page-heading">Works <span class="accent">_</span></h1>
+
+    <!-- ═══ Section: Drawing ════════════════════════════════ -->
+    <div class="work-section">
+      <div class="section-label">Drawing</div>
+      <div class="work-grid">
+
+        <!-- 每張圖連結至推特發文，替換 href 即可 -->
+        <a href="https://twitter.com/YOUR_TWEET_ID_1" target="_blank" class="work-card c1">
+          <!-- <img src="assets/drawing-1.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 01</span>
+          </div>
+        </a>
+
+        <a href="https://twitter.com/YOUR_TWEET_ID_2" target="_blank" class="work-card c2">
+          <!-- <img src="assets/drawing-2.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 02</span>
+          </div>
+        </a>
+
+        <a href="https://twitter.com/YOUR_TWEET_ID_3" target="_blank" class="work-card c3">
+          <!-- <img src="assets/drawing-3.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 03</span>
+          </div>
+        </a>
+
+      </div>
+      <!-- 連結至所有畫作列表頁 → drawing-more.html -->
+      <a href="drawing-more.html" class="more-link">……more</a>
+    </div>
+
+    <!-- ═══ Section: Games ══════════════════════════════════ -->
+    <div class="work-section">
+      <div class="section-label">Games</div>
+      <div class="work-grid">
+
+        <!-- 每個遊戲連結至獨立介紹頁 game-detail.html -->
+        <a href="game-detail.html?id=1" class="work-card game-c">
+          <!-- <img src="assets/game-1.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">遊戲名稱 01</span>
+          </div>
+        </a>
+
+        <a href="game-detail.html?id=2" class="work-card game-c">
+          <!-- <img src="assets/game-2.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">遊戲名稱 02</span>
+          </div>
+        </a>
+
+        <a href="game-detail.html?id=3" class="work-card game-c">
+          <!-- <img src="assets/game-3.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">遊戲名稱 03</span>
+          </div>
+        </a>
+
+      </div>
+      <a href="games-more.html" class="more-link">……more</a>
+    </div>
+
+    <!-- ═══ Section: Web Design ══════════════════════════════ -->
+    <div class="work-section">
+      <div class="section-label">Web Design</div>
+      <div class="work-grid">
+
+        <a href="#" class="work-card web-c">
+          <!-- <img src="assets/web-1.jpg" alt="網站名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">網站專案 01</span>
+          </div>
+        </a>
+
+        <a href="#" class="work-card web-c">
+          <!-- <img src="assets/web-2.jpg" alt="網站名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">網站專案 02</span>
+          </div>
+        </a>
+
+        <a href="#" class="work-card web-c">
+          <!-- <img src="assets/web-3.jpg" alt="網站名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">網站專案 03</span>
+          </div>
+        </a>
+
+      </div>
+      <a href="web-more.html" class="more-link">……more</a>
+    </div>
+
+  </main>
+
+  <!-- ── SCRIPTS ─────────────────────────────────────────── -->
+  <script>
+    /* ── Cursor ── */
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+    });
+    (function animateRing() {
+      rx += (mx - rx) * 0.13;
+      ry += (my - ry) * 0.13;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('expanded'); ring.classList.add('expanded'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('expanded'); ring.classList.remove('expanded'); });
+    });
+
+    /* ── Theme Toggle ── */
+    const toggle = document.getElementById('themeToggle');
+    const saved  = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☽' : '☀';
+    toggle.addEventListener('click', () => {
+      const curr = document.documentElement.getAttribute('data-theme');
+      const next = curr === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      toggle.textContent = next === 'dark' ? '☽' : '☀';
+    });
+  </script>
+
+</body>
+</html>
