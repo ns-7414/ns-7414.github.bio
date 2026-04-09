@@ -1,6 +1,18 @@
 <!doctype html>
 <html lang="zh-Hant" data-theme="light">
   <head>
+    <script>
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        const userPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+
+        // 統一使用 data-theme
+        const themeToSet = savedTheme || (userPrefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", themeToSet);
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MV考察：ReGLOSS - アワータイムイエロー.html</title>
@@ -1303,13 +1315,22 @@
       }
 
       const themeToggle = document.getElementById("themeToggle");
+      const htmlEl = document.documentElement;
+
+      // 頁面載入後，先根據當前狀態校正按鈕圖示
+      themeToggle.textContent =
+        htmlEl.getAttribute("data-theme") === "dark" ? "☽" : "☀";
+
       themeToggle.addEventListener("click", () => {
-        const next =
-          document.documentElement.getAttribute("data-theme") === "dark"
-            ? "light"
-            : "dark";
-        document.documentElement.setAttribute("data-theme", next);
+        const current = htmlEl.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+
+        // 1. 更新 DOM 屬性
+        htmlEl.setAttribute("data-theme", next);
+        // 2. 更新按鈕圖示
         themeToggle.textContent = next === "dark" ? "☽" : "☀";
+        // 3. 寫入儲存空間（這步沒做，重新整理就沒救）
+        localStorage.setItem("theme", next);
       });
     </script>
   </body>
