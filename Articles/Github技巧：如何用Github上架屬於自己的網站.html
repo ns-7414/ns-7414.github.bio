@@ -507,180 +507,28 @@
           <h2>創建Github帳號</h2>
 
           <p>
-            在 Grid 出現之前，要做複雜的二維佈局（既要控制橫向，也要控制縱向），
-            通常要靠 float、position，或者 Flexbox 巢狀嵌套。這些方法都有缺點：
-            float 很難控制、position 脫離文件流、Flexbox 本質上是一維的。
+            要用Github製作網站，首先你必須要有一個Github帳號。<br />
+            已經有帳號的人可以直接跳到下一階段操作，沒有的話也沒關係，這裡會有步驟讓你可以跟著建立屬於自己的帳號。
           </p>
-
-          <p>
-            <strong
-              >Grid
-              的核心概念是：把容器切成格子，然後告訴每個子元素要佔哪些格子。</strong
-            >
-            聽起來很簡單，但理解這個心智模型之後，很多以前覺得麻煩的佈局問題都消失了。
-          </p>
-
-          <h2>最基本的三個屬性</h2>
 
           <h3>① grid-template-columns</h3>
 
-          <p>定義欄的數量與寬度，是 Grid 裡最常用的屬性。</p>
-
-          <div class="code-block" data-lang="CSS">
+          <!-- <div class="code-block" data-lang="CSS">
             <pre><span class="code-cmt">/* 三欄等寬 */</span>
 <span class="code-prop">.container</span> {
   <span class="code-kw">display</span>: <span class="code-val">grid</span>;
   <span class="code-kw">grid-template-columns</span>: <span class="code-val">repeat</span>(<span class="code-num">3</span>, <span class="code-num">1</span><span class="code-val">fr</span>);
   <span class="code-kw">gap</span>: <span class="code-num">16</span><span class="code-val">px</span>;
-}</pre>
-          </div>
-
-          <div class="demo-box">
-            <div class="demo-label">// 三欄等寬示意</div>
-            <div class="demo-grid-3">
-              <div class="demo-cell c1">1fr</div>
-              <div class="demo-cell c2">1fr</div>
-              <div class="demo-cell c3">1fr</div>
-              <div class="demo-cell c1">1fr</div>
-              <div class="demo-cell c2">1fr</div>
-              <div class="demo-cell c3">1fr</div>
-            </div>
-          </div>
-
-          <p>
-            <code>fr</code> 是 fraction 的縮寫，意思是「剩餘空間的幾份」。
-            <code>repeat(3, 1fr)</code> 就是把容器的寬度平分成三等份。
-            如果你想要左側固定、右側自動填滿，可以寫 <code>200px 1fr</code>。
-          </p>
-
-          <h3>② auto-fill 與 auto-fit</h3>
-
-          <p>
-            這是我踩過最多次坑的地方。這兩個關鍵字都可以搭配
-            <code>minmax()</code> 使用， 讓 Grid
-            自動決定要放幾欄，實現響應式佈局。
-          </p>
-
-          <div class="code-block" data-lang="CSS">
-            <pre><span class="code-cmt">/* 自動填滿，每格最窄 120px */</span>
-<span class="code-prop">.auto-grid</span> {
-  <span class="code-kw">display</span>: <span class="code-val">grid</span>;
-  <span class="code-kw">grid-template-columns</span>: <span class="code-val">repeat</span>(<span class="code-val">auto-fill</span>, <span class="code-val">minmax</span>(<span class="code-num">120</span><span class="code-val">px</span>, <span class="code-num">1</span><span class="code-val">fr</span>));
-  <span class="code-kw">gap</span>: <span class="code-num">8</span><span class="code-val">px</span>;
-}</pre>
-          </div>
-
-          <div class="demo-box">
-            <div class="demo-label">
-              // auto-fill — 根據容器寬度自動計算欄數
-            </div>
-            <div class="demo-grid-auto">
-              <div class="demo-cell c1">A</div>
-              <div class="demo-cell c2">B</div>
-              <div class="demo-cell c3">C</div>
-              <div class="demo-cell c4">D</div>
-              <div class="demo-cell c1">E</div>
-            </div>
-          </div>
-
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th>關鍵字</th>
-                <th>空欄格的處理方式</th>
-                <th>適用情境</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>auto-fill</code></td>
-                <td>保留空格（格子存在，但是空的）</td>
-                <td>元素數量不固定，需要維持格線對齊</td>
-              </tr>
-              <tr>
-                <td><code>auto-fit</code></td>
-                <td>折疊空格（現有元素自動拉伸填滿）</td>
-                <td>少量元素，希望它們撐滿整排</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h3>③ grid-column 與 grid-row（讓元素跨格）</h3>
-
-          <p>
-            這是 Grid 最強大的功能之一，可以讓特定元素橫跨多個欄位或多個列。
-          </p>
-
-          <div class="code-block" data-lang="CSS">
-            <pre><span class="code-cmt">/* 讓第一個子元素佔滿兩欄 */</span>
-<span class="code-prop">.feature-card</span> {
-  <span class="code-kw">grid-column</span>: <span class="code-val">span</span> <span class="code-num">2</span>;   <span class="code-cmt">/* 或寫 1 / 3 */</span>
-  <span class="code-kw">grid-row</span>: <span class="code-val">span</span> <span class="code-num">2</span>;      <span class="code-cmt">/* 同時跨兩列 */</span>
-}</pre>
-          </div>
-
-          <div class="demo-box">
-            <div class="demo-label">// span 2 示意</div>
-            <div class="demo-grid-3">
-              <div class="demo-cell c1 span2">span 2</div>
-              <div class="demo-cell c3">1fr</div>
-              <div class="demo-cell c2">1fr</div>
-              <div class="demo-cell c3">1fr</div>
-              <div class="demo-cell c1">1fr</div>
-            </div>
-          </div>
-
-          <h2>Grid 最容易踩到的坑</h2>
-
-          <div class="highlight">
-            Grid 是作用在「容器」和「直接子元素」之間的關係。 孫元素不會自動參與
-            Grid 佈局，除非你也對它的父元素設定 <code>display: grid</code>。
-            很多奇怪的排版問題，都是因為搞錯了「誰是 Grid 容器」。
-          </div>
-
-          <div class="tip-box warn">
-            <span class="tip-icon">WARN</span>
-            <span
-              >在 Grid 容器內，子元素的 <code>float</code> 會失效。
-              同樣地，<code>display: inline-block</code> 也沒有作用。
-              這是刻意的設計，但如果你在 Grid 裡還試著用 float
-              排版，會讓你很困惑。</span
-            >
-          </div>
-
-          <div class="tip-box tip">
-            <span class="tip-icon">TIP</span>
-            <span
-              >瀏覽器開發者工具（DevTools）現在對 Grid 的視覺化支援非常好。 在
-              Chrome 或 Firefox 裡選取 Grid 容器，旁邊會出現一個 Grid 的 badge，
-              點下去就會在頁面上顯示格線，是學 Grid 最好用的工具。</span
-            >
-          </div>
-
-          <h2>這個網站怎麼用 Grid</h2>
-
-          <p>
-            這個作品集網站的主要佈局都是用 Grid 做的。 主頁的卡片區塊是
-            <code>grid-template-columns: 1fr 1.15fr</code>，
-            讓右側的技能卡片稍微寬一點。文章頁面的正文加側邊欄是
-            <code>1fr 200px</code>，在手機上則用 media query 切換成單欄。
-          </p>
-
-          <p>
-            最有趣的是作品集頁面的圖片格子，用了
-            <code>repeat(3, 1fr)</code> 加上 統一的
-            <code>aspect-ratio: 4/3</code>，不管圖片本身的尺寸是多少，
-            都能保持整齊的格狀排列。這個組合在做作品集類型的網頁時非常好用。
-          </p>
+}</pre> -->
 
           <div class="article-nav-row">
             <div class="nav-arrow">
               <span class="label">← Prev</span>
-              <a href="article-1.html">關於廢墟的凝視</a>
+              <!-- <a href="article-1.html">關於廢墟的凝視</a> -->
             </div>
             <div class="nav-arrow right">
               <span class="label">Next →</span>
-              <a href="article-2.html">用 Godot 做出我的第一款完整遊戲</a>
+              <!-- <a href="article-2.html">用 Godot 做出我的第一款完整遊戲</a> -->
             </div>
           </div>
         </div>
@@ -691,23 +539,9 @@
             <div class="sidebar-title">目錄</div>
             <ul class="toc-list">
               <li>前言</li>
-              <li>Grid 解決的問題</li>
-              <li>三個核心屬性</li>
-              <li>常見的坑</li>
-              <li>這個網站的應用</li>
             </ul>
           </div>
-          <div class="sidebar-card">
-            <div class="sidebar-title">Tags</div>
-            <div class="tag-row">
-              <span class="tag-chip">CSS</span>
-              <span class="tag-chip">Grid</span>
-              <span class="tag-chip">Layout</span>
-              <span class="tag-chip">前端</span>
-              <span class="tag-chip">網頁設計</span>
-              <span class="tag-chip">響應式</span>
-            </div>
-          </div>
+
           <div class="sidebar-card">
             <div class="sidebar-title">Back</div>
             <a
