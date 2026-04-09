@@ -49,6 +49,8 @@
 }
 
 html {
+  /* 假設你的 nav 高度是 80px，建議多加 10-20px 的間距 */
+  scroll-padding-top: 90px;
   scroll-behavior: smooth;
 }
 
