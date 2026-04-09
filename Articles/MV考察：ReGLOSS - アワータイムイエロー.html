@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <style>
-      /* ── Article-specific styles ── */
+      /* ================================================================
+         ARTICLE STYLES (保留原始數值並加入響應式改良)
+         ================================================================ */
+
       .article-header {
         margin-bottom: 40px;
         padding-bottom: 28px;
@@ -37,9 +40,11 @@
         text-transform: uppercase;
         margin-bottom: 16px;
       }
+
+      /* 改良：使用 clamp 讓標題字體在手機端自動縮小 */
       .article-main-title {
         font-family: "Orbitron", monospace;
-        font-size: 1.75rem;
+        font-size: clamp(1.3rem, 5vw, 1.75rem); /* 原始最大值 1.75rem */
         font-weight: 800;
         color: var(--text);
         letter-spacing: 0.03em;
@@ -57,13 +62,14 @@
         font-size: 0.72rem;
         color: var(--text2);
         letter-spacing: 0.06em;
-        flex-wrap: wrap;
+        flex-wrap: wrap; /* 改良：手機端自動換行 */
       }
       .article-meta .sep {
         color: var(--card2);
       }
 
       /* Cover image */
+      /* 改良：手機端調整比例為 4:3 避免過扁 */
       .article-cover {
         width: 100%;
         aspect-ratio: 16/7;
@@ -78,6 +84,12 @@
         margin-bottom: 40px;
         position: relative;
       }
+      @media (max-width: 768px) {
+        .article-cover {
+          aspect-ratio: 4/3;
+        }
+      }
+
       .article-cover-caption {
         position: absolute;
         bottom: 14px;
@@ -89,21 +101,29 @@
       }
 
       /* Article body typography */
+      /* 改良：手機端改為單欄佈局，並讓側欄移至下方 */
       .article-body-wrap {
         display: grid;
         grid-template-columns: 1fr 200px;
         gap: 40px;
         align-items: start;
       }
-      @media (max-width: 700px) {
+      @media (max-width: 900px) {
+        /* 調整為 900px 讓平板也適用單欄 */
         .article-body-wrap {
           grid-template-columns: 1fr;
+          gap: 30px;
         }
         .article-sidebar {
-          order: -1;
+          order: 2; /* 改良：內容優先，目錄移到下方 */
+          position: static;
+        }
+        .article-content {
+          order: 1;
         }
       }
 
+      /* 改良：針對跳轉遮擋，所有二級標題自動預留導覽列空間 */
       .article-content h2 {
         font-family: "Orbitron", monospace;
         font-size: 1rem;
@@ -112,6 +132,7 @@
         letter-spacing: 0.08em;
         margin: 36px 0 14px;
         text-transform: uppercase;
+        scroll-margin-top: 100px; /* 解決跳轉被擋住的核心代碼 */
       }
       .article-content h2::before {
         content: "// ";
@@ -152,20 +173,19 @@
         margin: 28px 0;
         border-radius: var(--r);
         overflow: hidden;
-        /* aspect-ratio: 16/9; */
         background: linear-gradient(135deg, #4a9cc7 0%, #7b8fc7 100%);
         position: relative;
-        width: 100%; /* 或設定固定寬度如 800px */
-        max-width: 100%; /* 確保在小螢幕下不會溢出 */
-        height: auto; /* 讓容器高度由內部圖片撐開 */
+        width: 100%;
+        max-width: 100%;
+        height: auto;
       }
 
       /* 圖片層：執行等比例縮放 */
       .article-content .img-block img {
-        display: block; /* 移除底部的空白間隙 */
-        width: 100%; /* 強制寬度填滿容器 */
-        height: auto; /* 核心：根據原始比例自動計算高度，不產生壓縮變形 */
-        object-fit: contain; /* 作為保險，確保圖片邏輯上不被裁切 */
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
       }
 
       .article-content .img-caption {
@@ -237,7 +257,7 @@
         flex-wrap: wrap;
         gap: 6px;
       }
-      .tag-chip {
+      /* .tag-chip {
         font-family: "Share Tech Mono", monospace;
         font-size: 0.68rem;
         color: var(--text2);
@@ -250,23 +270,25 @@
       .tag-chip:hover {
         border-color: var(--cyan);
         color: var(--cyan);
-      }
+      } */
 
       /* Back & nav */
+      /* 改良：導覽箭頭在螢幕寬度不足時自動堆疊 */
       .article-nav-row {
         display: flex;
         justify-content: space-between;
         margin-top: 52px;
         padding-top: 24px;
         border-top: 1px solid var(--card2);
-        gap: 12px;
+        gap: 20px;
         flex-wrap: wrap;
       }
       .nav-arrow {
         display: flex;
         flex-direction: column;
         gap: 4px;
-        max-width: 48%;
+        min-width: 120px;
+        max-width: 100%; /* 改良：手機端允許撐滿 */
       }
       .nav-arrow .label {
         font-family: "Share Tech Mono", monospace;
@@ -288,8 +310,164 @@
         text-align: right;
         margin-left: auto;
       }
+      @media (max-width: 480px) {
+        .nav-arrow,
+        .nav-arrow.right {
+          text-align: center;
+          margin: 0 auto;
+          width: 100%;
+        }
+      }
+      /* ── 手機端浮動目錄樣式 ────────────────────────────────────── */
+
+      @media (max-width: 900px) {
+        .article-body-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        /* 按鈕：強制固定在最頂層 */
+        .mobile-menu-toggle {
+          display: flex !important;
+          position: fixed !important;
+          bottom: 30px !important;
+          right: 30px !important;
+          width: 60px !important;
+          height: 60px !important;
+          background: linear-gradient(135deg, var(--purple), var(--cyan));
+          border-radius: 50%;
+          z-index: 10000; /* 極高層級 */
+          justify-content: center;
+          align-items: center;
+          border: none;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          cursor: pointer;
+        }
+
+        .hamburger {
+          position: relative;
+          width: 24px;
+          height: 2px;
+          background: #fff;
+          transition: 0.3s;
+        }
+        .hamburger::before,
+        .hamburger::after {
+          content: "";
+          position: absolute;
+          width: 24px;
+          height: 2px;
+          background: #fff;
+          left: 0;
+          transition: 0.3s;
+        }
+        .hamburger::before {
+          top: -8px;
+        }
+        .hamburger::after {
+          bottom: -8px;
+        }
+
+        /* 側欄：浮動面板樣式 */
+        .article-sidebar {
+          position: fixed !important;
+          bottom: 105px !important;
+          right: 30px !important;
+          width: 260px !important;
+          z-index: 9999;
+          opacity: 0;
+          transform: translateY(20px);
+          pointer-events: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .article-sidebar.active {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+
+        /* 動畫變換：X 圖示 */
+        .sidebar-active-mode .hamburger {
+          background: transparent;
+        }
+        .sidebar-active-mode .hamburger::before {
+          top: 0;
+          transform: rotate(45deg);
+        }
+        .sidebar-active-mode .hamburger::after {
+          bottom: 0;
+          transform: rotate(-45deg);
+        }
+
+        /* 電腦端隱藏開關 */
+        @media (min-width: 901px) {
+          .mobile-menu-toggle {
+            display: none;
+          }
+        }
+        /* ── 漢堡選單詳細修正 ────────────────────────────────────── */
+        @media (max-width: 900px) {
+          /* 確保開關按鈕顯示 */
+          .mobile-menu-toggle {
+            display: flex !important; /* 強制顯示 */
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 50%;
+            border: none;
+            z-index: 10000; /* 確保在所有元素最前方 */
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px var(--glow-c);
+          }
+
+          /* 漢堡條本體 (中間那條線) */
+          .hamburger {
+            display: block;
+            position: relative;
+            width: 28px;
+            height: 3px;
+            background-color: #ffffff; /* 確保是白色 */
+            transition: background 0.2s;
+          }
+
+          /* 漢堡條上下兩條線 */
+          .hamburger::before,
+          .hamburger::after {
+            content: "";
+            position: absolute;
+            width: 28px;
+            height: 3px;
+            background-color: #ffffff;
+            left: 0;
+            transition: transform 0.3s;
+          }
+
+          .hamburger::before {
+            top: -10px;
+          }
+          .hamburger::after {
+            bottom: -10px;
+          }
+
+          /* 點擊後變換成 X 的動畫邏輯 */
+          .article-sidebar.active .hamburger {
+            background-color: transparent;
+          }
+          .article-sidebar.active .hamburger::before {
+            transform: translateY(10px) rotate(45deg);
+          }
+          .article-sidebar.active .hamburger::after {
+            transform: translateY(-10px) rotate(-45deg);
+          }
+        }
+      }
     </style>
   </head>
+
   <body>
     <div class="cursor-dot" id="cursorDot"></div>
     <div class="cursor-ring" id="cursorRing"></div>
@@ -1015,7 +1193,7 @@
         <!-- /article-content -->
 
         <!-- ── SIDEBAR ─────────────────────────────────── -->
-        <aside class="article-sidebar">
+        <aside class="article-sidebar" id="mobileSidebar">
           <div class="sidebar-card">
             <div class="sidebar-title">目錄</div>
             <ul class="toc-list">
@@ -1065,46 +1243,73 @@
       <!-- /article-body-wrap -->
     </main>
 
+    <button class="mobile-menu-toggle" id="menuToggle">
+      <span class="hamburger"></span>
+    </button>
+
     <script>
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
+      // 1. 漢堡選單互動
+      document.addEventListener("DOMContentLoaded", () => {
+        const sidebar = document.getElementById("mobileSidebar");
+        const toggleBtn = document.getElementById("menuToggle");
+
+        if (toggleBtn && sidebar) {
+          toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle("active");
+            document.body.classList.toggle("sidebar-active-mode"); // 用於控制 X 動畫
+          });
+
+          // 點擊目錄項目後關閉
+          document.querySelectorAll(".toc-list li a").forEach((link) => {
+            link.addEventListener("click", () => {
+              sidebar.classList.remove("active");
+              document.body.classList.remove("sidebar-active-mode");
+            });
+          });
+
+          // 點擊外部關閉
+          document.addEventListener("click", (e) => {
+            if (!sidebar.contains(e.target) && e.target !== toggleBtn) {
+              sidebar.classList.remove("active");
+              document.body.classList.remove("sidebar-active-mode");
+            }
+          });
+        }
+      });
+
+      // 2. 原有的游標與主題邏輯
+      const dot = document.getElementById("cursorDot"),
+        ring = document.getElementById("cursorRing");
       let mx = 0,
         my = 0,
         rx = 0,
         ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
-      (function animateRing() {
-        rx += (mx - rx) * 0.13;
-        ry += (my - ry) * 0.13;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document.querySelectorAll("a,button,li").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          dot.classList.add("expanded");
-          ring.classList.add("expanded");
+
+      if (!("ontouchstart" in window)) {
+        document.addEventListener("mousemove", (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + "px";
+          dot.style.top = my + "px";
         });
-        el.addEventListener("mouseleave", () => {
-          dot.classList.remove("expanded");
-          ring.classList.remove("expanded");
-        });
-      });
-      const toggle = document.getElementById("themeToggle");
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", saved);
-      toggle.textContent = saved === "dark" ? "☽" : "☀";
-      toggle.addEventListener("click", () => {
-        const curr = document.documentElement.getAttribute("data-theme");
-        const next = curr === "dark" ? "light" : "dark";
+        (function a() {
+          rx += (mx - rx) * 0.13;
+          ry += (my - ry) * 0.13;
+          ring.style.left = rx + "px";
+          ring.style.top = ry + "px";
+          requestAnimationFrame(a);
+        })();
+      }
+
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "light"
+            : "dark";
         document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        toggle.textContent = next === "dark" ? "☽" : "☀";
+        themeToggle.textContent = next === "dark" ? "☽" : "☀";
       });
     </script>
   </body>
