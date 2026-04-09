@@ -937,4 +937,20 @@ main {
   main {
     padding: 24px 16px 48px;
   }
+
+  /* 只在支援滑鼠的裝置上顯示自定義游標 */
+  @media (pointer: fine) {
+    #cursorDot,
+    #cursorRing {
+      display: block;
+    }
+  }
+
+  /* 在觸控裝置（手機/平板）隱藏游標 */
+  @media (pointer: coarse) {
+    #cursorDot,
+    #cursorRing {
+      display: none;
+    }
+  }
 }
