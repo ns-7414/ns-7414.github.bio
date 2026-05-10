@@ -1,183 +1,168 @@
 <!doctype html>
-<html lang="zh-Hant" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Works — GK的雜物堆</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  </head>
-  <body>
-    <!-- ── CURSOR ────────────────────────────────────────── -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works — GK的雜物堆</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
 
-    <!-- ── NAVIGATION ─────────────────────────────────────── -->
-    <nav>
-      <div class="nav-inner">
-        <a href="index.html" class="logo">GK的雜物堆</a>
-        <div class="nav-links">
-          <a href="work.html" class="nav-link active">Works</a>
-          <a href="blog.html" class="nav-link">Blog</a>
-          <a href="about.html" class="nav-link">About</a>
-          <button class="theme-toggle" id="themeToggle" title="切換主題">
-            ☀
-          </button>
-        </div>
+  <!-- ── CURSOR ──────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── EASTER EGG ──────────────────────────── -->
+  <div id="easterEgg">
+    <div class="egg-terminal">
+      <div class="egg-titlebar">
+        <div class="egg-dot" style="background:#ff5555"></div>
+        <div class="egg-dot" style="background:#f1fa8c"></div>
+        <div class="egg-dot" style="background:#50fa7b"></div>
+        <span class="egg-titlebar-label">gk_terminal — bash · 80×24</span>
       </div>
-    </nav>
-
-    <!-- ── MAIN ───────────────────────────────────────────── -->
-    <main>
-      <h1 class="page-heading">Works <span class="accent">_</span></h1>
-
-      <!-- ═══ Section: Drawing ════════════════════════════════ -->
-      <div class="work-section">
-        <div class="section-label">Drawing</div>
-        <div class="work-grid">
-          <!-- 每張圖連結至推特發文，替換 href 即可 -->
-          <a
-            href="https://twitter.com/YOUR_TWEET_ID_1"
-            target="_blank"
-            class="work-card c1"
-          >
-            <!-- <img src="assets/drawing-1.jpg" alt="作品名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">作品標題 01</span>
-            </div>
-          </a>
-
-          <a
-            href="https://twitter.com/YOUR_TWEET_ID_2"
-            target="_blank"
-            class="work-card c2"
-          >
-            <!-- <img src="assets/drawing-2.jpg" alt="作品名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">作品標題 02</span>
-            </div>
-          </a>
-
-          <a
-            href="https://twitter.com/YOUR_TWEET_ID_3"
-            target="_blank"
-            class="work-card c3"
-          >
-            <!-- <img src="assets/drawing-3.jpg" alt="作品名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">作品標題 03</span>
-            </div>
-          </a>
-        </div>
-        <!-- 連結至所有畫作列表頁 → drawing-more.html -->
-        <a href="drawing-more.html" class="more-link">……more</a>
+      <div class="egg-body">
+        <div class="egg-line">$ cat /home/gk/.hidden/message.txt</div>
+        <hr class="egg-sep">
+        <div class="egg-line white">嘿，你找到了。</div>
+        <div class="egg-line dim">不是每個人都會嘗試 Konami Code 的。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line highlight">既然你這麼有心，就給你看些隱藏數據：</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 真實技能評比（勿外傳）</div>
+        <div class="egg-line">深夜發呆能力    ★★★★★  (MAX)</div>
+        <div class="egg-line">假裝很忙的技術  ★★★★☆</div>
+        <div class="egg-line">最後一刻才開始  ★★★★★  (MAX)</div>
+        <div class="egg-line">把一切都做完    ★★★☆☆  (進行中)</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line red-txt">⚠ WARNING: 此訊息在你關閉視窗後將不復存在。</div>
+        <div class="egg-line dim">── 感謝你的造訪。繼續探索吧。</div>
+        <span class="egg-close" id="eggClose">[ 關閉終端機 ]</span>
       </div>
+    </div>
+  </div>
 
-      <!-- ═══ Section: Games ══════════════════════════════════ -->
-      <div class="work-section">
-        <div class="section-label">Games</div>
-        <div class="work-grid">
-          <!-- 每個遊戲連結至獨立介紹頁 game-detail.html -->
-          <a href="game-detail.html?id=1" class="work-card game-c">
-            <!-- <img src="assets/game-1.jpg" alt="遊戲名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">遊戲名稱 01</span>
-            </div>
-          </a>
+  <!-- ── SYSTEM PANEL ─────────────────────────── -->
+  <button id="sysPanelToggle" title="系統監控面板">SYS</button>
+  <div id="sysContent">
+    <div class="sys-title">// SYSTEM MONITOR</div>
+    <div class="sys-row"><span class="sys-label">TIME</span><span class="sys-val" id="sysTime">--:--:--</span></div>
+    <div class="sys-row"><span class="sys-label">LOCATION</span><span class="sys-val">TW / TPE</span></div>
+    <div class="sys-row"><span class="sys-label">WEATHER</span><span class="sys-val">☁ 24°C</span></div>
+    <hr class="sys-divider">
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CPU TEMP</span><span class="sys-val" id="sysCpu">68°C</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysCpuBar" style="width:68%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">MEMORY</span><span class="sys-val" id="sysMem">6.2 GB</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysMemBar" style="width:52%"></div></div>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-title">// GK_STATUS.log</div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">STUDY</span><span class="sys-val">62%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:62%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CREATE</span><span class="sys-val">88%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">SLEEP</span><span class="sys-val warn">31%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:31%;background:linear-gradient(90deg,var(--yellow),var(--red))"></div></div>
+    </div>
+  </div>
 
-          <a href="game-detail.html?id=2" class="work-card game-c">
-            <!-- <img src="assets/game-2.jpg" alt="遊戲名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">遊戲名稱 02</span>
-            </div>
-          </a>
-
-          <a href="game-detail.html?id=3" class="work-card game-c">
-            <!-- <img src="assets/game-3.jpg" alt="遊戲名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">遊戲名稱 03</span>
-            </div>
-          </a>
-        </div>
-        <a href="games-more.html" class="more-link">……more</a>
+  <!-- ── NAVIGATION ───────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">GK的雜物堆</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link active">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="now.html"   class="nav-link">Now</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="nav-icon-btn" id="soundBtn" title="開啟環境音">♩</button>
+        <button class="nav-icon-btn" id="themeToggle" title="切換主題">☽</button>
       </div>
+    </div>
+  </nav>
 
-      <!-- ═══ Section: Web Design ══════════════════════════════ -->
-      <div class="work-section">
-        <div class="section-label">Web Design</div>
-        <div class="work-grid">
-          <a href="#" class="work-card web-c">
-            <!-- <img src="assets/web-1.jpg" alt="網站名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">網站專案 01</span>
-            </div>
-          </a>
+  <!-- ── MAIN ─────────────────────────────────── -->
+  <main>
+    <h1 class="page-heading">Works <span class="accent">_</span></h1>
 
-          <a href="#" class="work-card web-c">
-            <!-- <img src="assets/web-2.jpg" alt="網站名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">網站專案 02</span>
-            </div>
-          </a>
-
-          <a href="#" class="work-card web-c">
-            <!-- <img src="assets/web-3.jpg" alt="網站名稱"> -->
-            <div class="work-card-overlay">
-              <span class="work-card-label">網站專案 03</span>
-            </div>
-          </a>
-        </div>
-        <a href="web-more.html" class="more-link">……more</a>
+    <!-- ═══ Drawing ════════════════════════════════ -->
+    <div class="work-section">
+      <div class="section-label">Drawing</div>
+      <div class="work-grid">
+        <!-- 替換 href 為對應推特連結 -->
+        <a href="https://twitter.com/none_shadow01" target="_blank" class="work-card c1">
+          <!-- <img src="assets/drawing-01.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 01</span>
+          </div>
+        </a>
+        <a href="https://twitter.com/none_shadow01" target="_blank" class="work-card c2">
+          <!-- <img src="assets/drawing-02.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 02</span>
+          </div>
+        </a>
+        <a href="https://twitter.com/none_shadow01" target="_blank" class="work-card c3">
+          <!-- <img src="assets/drawing-03.jpg" alt="作品名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">作品標題 03</span>
+          </div>
+        </a>
       </div>
-    </main>
+      <a href="https://twitter.com/none_shadow01" target="_blank" class="more-link">……more →</a>
+    </div>
 
-    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
-    <script>
-      /* ── Cursor ── */
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
+    <!-- ═══ Games ═══════════════════════════════════ -->
+    <div class="work-section">
+      <div class="section-label">Games</div>
+      <div class="work-grid">
+        <a href="game-detail.html?id=1" class="work-card game-c">
+          <!-- <img src="assets/game-01.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">廢墟物語</span>
+          </div>
+        </a>
+        <a href="game-detail.html?id=2" class="work-card game-c">
+          <!-- <img src="assets/game-02.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">便利商店的最後一班</span>
+          </div>
+        </a>
+        <a href="game-detail.html?id=3" class="work-card game-c">
+          <!-- <img src="assets/game-03.jpg" alt="遊戲名稱"> -->
+          <div class="work-card-overlay">
+            <span class="work-card-label">遊戲名稱 03</span>
+          </div>
+        </a>
+      </div>
+      <a href="game-detail.html" class="more-link">……more →</a>
+    </div>
 
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
-      (function animateRing() {
-        rx += (mx - rx) * 0.13;
-        ry += (my - ry) * 0.13;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          dot.classList.add("expanded");
-          ring.classList.add("expanded");
-        });
-        el.addEventListener("mouseleave", () => {
-          dot.classList.remove("expanded");
-          ring.classList.remove("expanded");
-        });
-      });
+  </main>
 
-      /* ── Theme Toggle ── */
-      const toggle = document.getElementById("themeToggle");
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", saved);
-      toggle.textContent = saved === "dark" ? "☽" : "☀";
-      toggle.addEventListener("click", () => {
-        const curr = document.documentElement.getAttribute("data-theme");
-        const next = curr === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        toggle.textContent = next === "dark" ? "☽" : "☀";
-      });
-    </script>
-  </body>
+  <!-- ── FOOTER ───────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 &nbsp;<span>GK</span>&nbsp; · Built with curiosity and too many late nights</div>
+      <div class="footer-links">
+        <a href="now.html">Now</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/ns-7414" target="_blank">GitHub</a>
+      </div>
+      <div class="footer-status"><div class="status-dot"></div>SYSTEM ONLINE</div>
+    </div>
+  </footer>
+
+  <script src="common.js"></script>
+</body>
 </html>

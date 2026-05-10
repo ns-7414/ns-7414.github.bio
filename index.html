@@ -1,167 +1,311 @@
 <!doctype html>
-<html lang="zh-Hant" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GK的雜物堆</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  </head>
-  <body>
-    <!-- ── CURSOR ────────────────────────────────────────── -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GK的雜物堆</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
 
-    <!-- ── ANNOUNCEMENT BAR (index only) ──────────────────── -->
-    <div class="announce-bar">
-      <div class="announce-track">
-        <span>📢 正在開發純文字遊戲：廢墟物語 ／ 網站持續更新中</span>
+  <!-- ── CURSOR ──────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── ENTRY MODAL ─────────────────────────── -->
+  <div id="entryModal">
+    <div class="modal-box">
+      <div class="modal-scan"></div>
+      <div class="modal-tag">// GK_SYSTEM · ENTRY PROTOCOL v2.6</div>
+      <div class="modal-title">入館須知<span class="modal-cursor">_</span></div>
+
+      <div class="modal-rule">
+        <span class="modal-rule-num">01.</span>
+        本站所有內容均為個人創作，未經授權請勿轉載。
+      </div>
+      <div class="modal-rule">
+        <span class="modal-rule-num">02.</span>
+        你將在此看到許多「未完成」的事物——那是刻意的，完成從不是終點。
+      </div>
+      <div class="modal-rule">
+        <span class="modal-rule-num">03.</span>
+        若你在某個角落發現了什麼，那是你應得的。繼續找下去。
+      </div>
+      <div class="modal-rule red-rule">
+        <span class="modal-rule-num">04.</span>
+        深夜時分，請勿嘗試輸入任何代碼。（我不是認真的……或許。）
+      </div>
+      <div class="modal-rule highlight">
+        <span class="modal-rule-num">05.</span>
+        歡迎——或者說，你已經進入了。
+      </div>
+
+      <hr class="modal-divider" />
+      <button class="modal-enter" id="enterBtn">[ 我明白了，帶我進去 ]</button>
+    </div>
+  </div>
+
+  <!-- ── EASTER EGG ──────────────────────────── -->
+  <div id="easterEgg">
+    <div class="egg-terminal">
+      <div class="egg-titlebar">
+        <div class="egg-dot" style="background:#ff5555"></div>
+        <div class="egg-dot" style="background:#f1fa8c"></div>
+        <div class="egg-dot" style="background:#50fa7b"></div>
+        <span class="egg-titlebar-label">gk_terminal — bash · 80×24</span>
+      </div>
+      <div class="egg-body">
+        <div class="egg-line">$ cat /home/gk/.hidden/message.txt</div>
+        <hr class="egg-sep">
+        <div class="egg-line white">嘿，你找到了。</div>
+        <div class="egg-line dim">不是每個人都會嘗試 Konami Code 的。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line highlight">既然你這麼有心，就給你看些隱藏數據：</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 真實技能評比（勿外傳）</div>
+        <div class="egg-line">深夜發呆能力    ★★★★★  (MAX)</div>
+        <div class="egg-line">假裝很忙的技術  ★★★★☆</div>
+        <div class="egg-line">最後一刻才開始  ★★★★★  (MAX)</div>
+        <div class="egg-line">把一切都做完    ★★★☆☆  (進行中)</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 系統備忘</div>
+        <div class="egg-line white">GK 目前正在某個深夜角落寫程式，</div>
+        <div class="egg-line white">旁邊擺著一杯放涼的茶。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line red-txt">⚠ WARNING: 此訊息在你關閉視窗後將不復存在。</div>
+        <div class="egg-line dim">── 感謝你的造訪。繼續探索吧。</div>
+        <span class="egg-close" id="eggClose">[ 關閉終端機 · ESC ]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SYSTEM PANEL ─────────────────────────── -->
+  <button id="sysPanelToggle" title="系統監控面板">SYS</button>
+  <div id="sysContent">
+    <div class="sys-title">// SYSTEM MONITOR</div>
+    <div class="sys-row">
+      <span class="sys-label">TIME</span>
+      <span class="sys-val" id="sysTime">--:--:--</span>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">LOCATION</span>
+      <span class="sys-val">TW / TPE</span>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">WEATHER</span>
+      <span class="sys-val">☁ 24°C</span>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-bar-wrap">
+      <div class="sys-row">
+        <span class="sys-label">CPU TEMP</span>
+        <span class="sys-val" id="sysCpu">68°C</span>
+      </div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysCpuBar" style="width:68%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row">
+        <span class="sys-label">MEMORY</span>
+        <span class="sys-val" id="sysMem">6.2 GB</span>
+      </div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysMemBar" style="width:52%"></div></div>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-title">// GK_STATUS.log</div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row">
+        <span class="sys-label">STUDY</span>
+        <span class="sys-val">62%</span>
+      </div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:62%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row">
+        <span class="sys-label">CREATE</span>
+        <span class="sys-val">88%</span>
+      </div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row">
+        <span class="sys-label">SLEEP</span>
+        <span class="sys-val warn">31%</span>
+      </div>
+      <div class="sys-bar">
+        <div class="sys-bar-fill" style="width:31%;background:linear-gradient(90deg,var(--yellow),var(--red))"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ANNOUNCE BAR ─────────────────────────── -->
+  <div class="announce-bar">
+    <div class="announce-track">
+      📢 &nbsp; 正在開發純文字遊戲：廢墟物語 &nbsp;／&nbsp; 網站持續更新中 &nbsp;／&nbsp;
+      最新文章：ReGLOSS - アワータイムイエロー &nbsp;／&nbsp;
+      📢 &nbsp; 正在開發純文字遊戲：廢墟物語 &nbsp;／&nbsp; 網站持續更新中 &nbsp;／&nbsp;
+      最新文章：ReGLOSS - アワータイムイエロー
+    </div>
+  </div>
+
+  <!-- ── NAVIGATION ───────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">GK的雜物堆</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="now.html"   class="nav-link">Now</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="nav-icon-btn" id="soundBtn" title="開啟環境音">♩</button>
+        <button class="nav-icon-btn" id="themeToggle" title="切換主題">☽</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ─────────────────────────────────── -->
+  <main>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-avatar">
+        <img src="Profile_Square.png" alt="GK Avatar" />
+      </div>
+      <div>
+        <h1 class="hero-name glitch" data-text="GK">GK</h1>
+        <p class="hero-tagline">
+          遊戲開發 ／ 隨筆塗鴉 ／ 寫作<br />
+          <span class="hero-tag-accent">想試著用文字描繪出有血有肉的畫面。</span>
+        </p>
       </div>
     </div>
 
-    <!-- ── NAVIGATION ─────────────────────────────────────── -->
-    <nav>
-      <div class="nav-inner">
-        <a href="index.html" class="logo">GK的雜物堆</a>
-        <div class="nav-links">
-          <a href="work.html" class="nav-link">Works</a>
-          <a href="blog.html" class="nav-link">Blog</a>
-          <a href="about.html" class="nav-link">About</a>
-          <button class="theme-toggle" id="themeToggle" title="切換主題">
-            ☀
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ── MAIN ───────────────────────────────────────────── -->
-    <main>
-      <!-- Hero -->
-      <div class="hero">
-        <div class="hero-avatar">
-          <!-- 替換為您的頭像圖片 -->
-          <img src="Profile_Square.png" alt="Avatar" />
-        </div>
-        <div>
-          <h1 class="hero-name">GK</h1>
-          <p class="hero-tagline">
-            遊戲開發 ／ 隨筆塗鴉 ／ 寫作<br />
-            <span class="hero-tag-accent"
-              >想試著用文字描繪出有血有肉的畫面。</span
-            >
-          </p>
-        </div>
-      </div>
-
-      <!-- Info Grid -->
-      <div class="info-grid">
-        <!-- About Card -->
-        <div class="card">
-          <div class="card-title">About</div>
-          <p class="card-text">
-            嗨！我是 GK，<br />
-            正在當有著畢業學分焦慮的水深火熱大四生。<br /><br />
-            會寫作，會寫遊戲，會畫點廢圖，會寫網頁，也會一點點日文，總而言之就是技能樹雜到不行的一個人。<br /><br />
-            閒暇時間喜歡畫圖、寫遊戲、做白日夢，或是瘋狂跟holomem的直播。<br /><br />
+    <!-- Info Grid -->
+    <div class="info-grid">
+      <!-- About Card -->
+      <div class="card">
+        <div class="card-title">// WHO'S BEHIND THIS SCREEN</div>
+        <p class="card-text">
+          嗨！我是 GK，<br />
+          正在當有著畢業學分焦慮的水深火熱大四生。<br /><br />
+          技能樹雜到不行——寫作、寫遊戲、畫點廢圖、寫網頁，還有一點點日文。
+          閒暇時間喜歡畫圖、寫遊戲、做白日夢，或是瘋狂跟 holomem 的直播。<br /><br />
+          <span style="color:var(--cyan);font-family:var(--mono);font-size:0.78rem">
             （當然也會記得來更新網站啦）
-          </p>
-        </div>
-
-        <!-- Skills Card -->
-        <div class="card">
-          <div class="card-title">Skills</div>
-
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">網頁程式</span>
-              <span class="skill-val">50/100</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" style="--w: 50%"></div>
-            </div>
-          </div>
-
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">畫圖</span>
-              <span class="skill-val">36/100</span>
-            </div>
-            <div class="skill-bar">
-              <div
-                class="skill-fill"
-                style="--w: 36%; animation-delay: 0.15s"
-              ></div>
-            </div>
-          </div>
-
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">遊戲開發</span>
-              <span class="skill-val">25/100</span>
-            </div>
-            <div class="skill-bar">
-              <div
-                class="skill-fill"
-                style="--w: 25%; animation-delay: 0.3s"
-              ></div>
-            </div>
-          </div>
-        </div>
-        <!-- /skills card -->
+          </span>
+        </p>
       </div>
-      <!-- /info-grid -->
-    </main>
 
-    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
-    <script>
-      /* ── Cursor ── */
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
+      <!-- Skills Card -->
+      <div class="card">
+        <div class="card-title">// TOP SKILLS · CURRENT BUILD</div>
 
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">網頁程式</span>
+            <span class="skill-val">50 / 100</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--w:50%; --delay:0.1s"></div>
+          </div>
+        </div>
 
-      (function animateRing() {
-        rx += (mx - rx) * 0.13;
-        ry += (my - ry) * 0.13;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">畫圖</span>
+            <span class="skill-val">36 / 100</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--w:36%; --delay:0.25s"></div>
+          </div>
+        </div>
 
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          dot.classList.add("expanded");
-          ring.classList.add("expanded");
-        });
-        el.addEventListener("mouseleave", () => {
-          dot.classList.remove("expanded");
-          ring.classList.remove("expanded");
-        });
-      });
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">遊戲開發</span>
+            <span class="skill-val">25 / 100</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--w:25%; --delay:0.4s"></div>
+          </div>
+        </div>
 
-      /* ── Theme Toggle ── */
-      const toggle = document.getElementById("themeToggle");
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", saved);
-      toggle.textContent = saved === "dark" ? "☽" : "☀";
+        <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--text-sub);margin-bottom:8px">
+            // CURRENTLY PLAYING
+          </div>
+          <div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-dim)">
+            🎮 &nbsp;廢墟物語 (開發中) &nbsp;·&nbsp; Twine / SugarCube
+          </div>
+        </div>
+      </div>
+    </div>
 
-      toggle.addEventListener("click", () => {
-        const curr = document.documentElement.getAttribute("data-theme");
-        const next = curr === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        toggle.textContent = next === "dark" ? "☽" : "☀";
-      });
-    </script>
-  </body>
+    <!-- Quick Nav Cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px">
+      <a href="work.html" class="card" style="text-align:center;cursor:pointer;display:block">
+        <div style="font-size:1.5rem;margin-bottom:8px">🎨</div>
+        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--cyan)">WORKS</div>
+        <div style="font-size:0.78rem;color:var(--text-dim);margin-top:4px">插畫 · 遊戲 · 設計</div>
+      </a>
+      <a href="blog.html" class="card" style="text-align:center;cursor:pointer;display:block">
+        <div style="font-size:1.5rem;margin-bottom:8px">✍️</div>
+        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--cyan)">BLOG</div>
+        <div style="font-size:0.78rem;color:var(--text-dim);margin-top:4px">隨筆 · 考察 · 開發碎念</div>
+      </a>
+      <a href="now.html" class="card" style="text-align:center;cursor:pointer;display:block">
+        <div style="font-size:1.5rem;margin-bottom:8px">📡</div>
+        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--cyan)">NOW</div>
+        <div style="font-size:0.78rem;color:var(--text-dim);margin-top:4px">這週在幹嘛</div>
+      </a>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ───────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">
+        © 2026 &nbsp;<span>GK</span>&nbsp; · &nbsp;Built with curiosity and too many late nights
+      </div>
+      <div class="footer-links">
+        <a href="now.html">Now</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/ns-7414" target="_blank">GitHub</a>
+      </div>
+      <div class="footer-status">
+        <div class="status-dot"></div>
+        SYSTEM ONLINE
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ──────────────────────────────── -->
+  <script src="common.js"></script>
+  <script>
+    /* Entry Modal */
+    const modal    = document.getElementById('entryModal');
+    const enterBtn = document.getElementById('enterBtn');
+
+    if (!sessionStorage.getItem('gk_visited')) {
+      modal.style.display = 'flex';
+    } else {
+      modal.style.display = 'none';
+    }
+
+    enterBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      setTimeout(() => { modal.style.display = 'none'; }, 500);
+      sessionStorage.setItem('gk_visited', '1');
+    });
+
+    /* Glitch hero name on hover */
+    document.querySelector('.hero-name').addEventListener('mouseenter', function() {
+      this.style.color = 'var(--cyan)';
+    });
+    document.querySelector('.hero-name').addEventListener('mouseleave', function() {
+      this.style.color = '';
+    });
+  </script>
+
+</body>
 </html>

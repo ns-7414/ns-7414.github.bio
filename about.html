@@ -1,288 +1,260 @@
 <!doctype html>
-<html lang="zh-Hant" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About — GK的雜物堆</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Font Awesome 6 for social icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <!-- ── CURSOR ────────────────────────────────────────── -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — GK的雜物堆</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
 
-    <!-- ── NAVIGATION ─────────────────────────────────────── -->
-    <nav>
-      <div class="nav-inner">
-        <a href="index.html" class="logo">GK的雜物堆</a>
-        <div class="nav-links">
-          <a href="work.html" class="nav-link">Works</a>
-          <a href="blog.html" class="nav-link">Blog</a>
-          <a href="about.html" class="nav-link active">About</a>
-          <button class="theme-toggle" id="themeToggle" title="切換主題">
-            ☀
-          </button>
+  <!-- ── CURSOR ────────────────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── EASTER EGG ──────────────────────────────────────── -->
+  <div id="easterEgg">
+    <div class="egg-terminal">
+      <div class="egg-titlebar">
+        <div class="egg-dot" style="background:#ff5555"></div>
+        <div class="egg-dot" style="background:#f1fa8c"></div>
+        <div class="egg-dot" style="background:#50fa7b"></div>
+        <span class="egg-titlebar-label">gk_terminal — bash · 80×24</span>
+      </div>
+      <div class="egg-body">
+        <div class="egg-line">$ cat /home/gk/.hidden/message.txt</div>
+        <hr class="egg-sep">
+        <div class="egg-line white">喲，你找到了。</div>
+        <div class="egg-line dim">不是每個人都會嘗試 Konami Code 的。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line highlight">既然你這麼有心，就給你看些隱藏數據：</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 真實技能評比（勿外傳）</div>
+        <div class="egg-line">深夜發呆能力    ★★★★★  (MAX)</div>
+        <div class="egg-line">假裝很忙的技術  ★★★★☆</div>
+        <div class="egg-line">最後一刻才開始  ★★★★★  (MAX)</div>
+        <div class="egg-line">把一切都做完    ★★★☆☆  (進行中)</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line red-txt">⚠ WARNING: 此訊息在你關閉視窗後將不復存在。</div>
+        <div class="egg-line dim">── 感謝你的造訪。繼續探索吧。</div>
+        <span class="egg-close" id="eggClose">[ 關閉終端機 ]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SYSTEM PANEL ──────────────────────────────────── -->
+  <button id="sysPanelToggle" title="系統監控面板">SYS</button>
+  <div id="sysContent">
+    <div class="sys-title">// SYSTEM MONITOR</div>
+    <div class="sys-row"><span class="sys-label">TIME</span><span class="sys-val" id="sysTime">--:--:--</span></div>
+    <div class="sys-row"><span class="sys-label">LOCATION</span><span class="sys-val">TW / TPE</span></div>
+    <div class="sys-row"><span class="sys-label">WEATHER</span><span class="sys-val">☁ 24°C</span></div>
+    <hr class="sys-divider">
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CPU TEMP</span><span class="sys-val" id="sysCpu">68°C</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysCpuBar" style="width:68%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">MEMORY</span><span class="sys-val" id="sysMem">6.2 GB</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysMemBar" style="width:52%"></div></div>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-title">// GK_STATUS.log</div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">STUDY</span><span class="sys-val">62%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:62%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CREATE</span><span class="sys-val">88%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">SLEEP</span><span class="sys-val warn">31%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:31%;background:linear-gradient(90deg,var(--yellow),var(--red))"></div></div>
+    </div>
+  </div>
+
+  <!-- ── NAVIGATION ─────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">GK的雜物堆</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="now.html"   class="nav-link">Now</a>
+        <a href="about.html" class="nav-link active">About</a>
+        <button class="nav-icon-btn" id="soundBtn" title="開啟環境音">♩</button>
+        <button class="nav-icon-btn" id="themeToggle" title="切換主題">☽</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <main>
+    <h1 class="page-heading">// WHO'S BEHIND <span class="accent">THIS SCREEN</span></h1>
+
+    <!-- ═══ Hero ═════════════════════════════════════════ -->
+    <div class="about-hero">
+      <div class="about-photo">
+        <img src="Profile_Ret.png" alt="GK" />
+      </div>
+      <div class="about-text">
+        <div class="about-quote">「 Jedem Anfang wohnt ein Zauber inne. 」</div>
+        <div class="about-quote-sub">— Hermann Karl Hesse</div>
+
+        <div class="socials">
+          <a href="https://x.com/none_shadow01" target="_blank" class="social-btn" title="X (Twitter)">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a href="https://www.threads.com/@ns7414_" target="_blank" class="social-btn" title="Threads">
+            <i class="fa-brands fa-threads"></i>
+          </a>
+          <a href="https://www.pixiv.net/users/71376239" target="_blank" class="social-btn" title="Pixiv">Pv</a>
+          <a href="https://github.com/ns-7414" target="_blank" class="social-btn" title="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </div>
+
+        <p class="about-bio">
+          嗨，我是 GK。<br /><br />
+          我喜歡製造各種形式的作品——從一張插畫到一款互動遊戲，更甚至短短一段文字、一篇故事都是我用來表達想法的媒介。
+          只要閒下來就是不停深度思考，我需要一個好的出口 ——
+          於是我選擇了創作。<br /><br />
+          高中就讀三類組，大學想不開選了藝術科系，即便我沒有任何藝術基礎。到現在作為一個稱職的Z世代，我利用網路學我想學，做我想做。<br /><br />
+          正在接觸的有：日文、插畫、寫作、製作遊戲（Twine/Godot）、前/後端程式技術。<br />
+          目前正在開發中的專案包含：一個敘事向的純文字遊戲，以及這個網站本身。
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══ Bottom Grid: Skills + Timeline ═══════════════ -->
+    <div class="about-bottom">
+
+      <!-- Skills Card -->
+      <div class="card">
+        <div class="card-title">Skills</div>
+
+        <div class="skill-detail">
+          <span class="skill-detail-name">當顆馬鈴薯</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span>
+          </span>
+        </div>
+        <div class="skill-detail">
+          <span class="skill-detail-name">日文能力</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span>
+          </span>
+        </div>
+        <div class="skill-detail">
+          <span class="skill-detail-name">介面設計</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span>
+          </span>
+        </div>
+        <div class="skill-detail">
+          <span class="skill-detail-name">網頁程式 (HTML/CSS/JS)</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span>
+          </span>
+        </div>
+        <div class="skill-detail">
+          <span class="skill-detail-name">敘事設計</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span>
+          </span>
+        </div>
+        <div class="skill-detail">
+          <span class="skill-detail-name">遊戲開發 (Twine / Godot)</span>
+          <span class="stars">
+            <span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span>
+          </span>
         </div>
       </div>
-    </nav>
 
-    <!-- ── MAIN ───────────────────────────────────────────── -->
-    <main>
-      <h1 class="page-heading">About <span class="accent">Me</span></h1>
+      <!-- Timeline -->
+      <div>
+        <div class="timeline-title">Timeline</div>
+        <div class="timeline">
 
-      <!-- ═══ Hero Section ════════════════════════════════════ -->
-      <div class="about-hero">
-        <!-- Photo -->
-        <div class="about-photo">
-          <img src="Profile_Ret.png" alt="Your Name" />
-        </div>
-
-        <!-- Text Block -->
-        <div class="about-text">
-          <div class="about-quote">
-            「 Jedem Anfang wohnt ein Zauber inne. 」
-          </div>
-          <div class="about-quote-sub">— Hermann Karl Hesse</div>
-
-          <!-- Social Buttons -->
-          <div class="socials">
-            <a
-              href="https://x.com/none_shadow01"
-              target="_blank"
-              class="social-btn"
-              title="X (Twitter)"
-            >
-              <i class="fa-brands fa-x-twitter"></i>
-            </a>
-            <a
-              href="https://www.threads.com/@ns7414_"
-              target="_blank"
-              class="social-btn"
-              title="Threads"
-            >
-              <i class="fa-brands fa-threads"></i>
-            </a>
-            <!-- Pixiv 無 FA 圖示，使用自訂文字 -->
-            <a
-              href="https://www.pixiv.net/users/71376239"
-              target="_blank"
-              class="social-btn"
-              title="Pixiv"
-            >
-              Pv
-            </a>
-            <a
-              href="https://github.com/ns-7414"
-              target="_blank"
-              class="social-btn"
-              title="GitHub"
-            >
-              <i class="fa-brands fa-github"></i>
-            </a>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2026 . 04</div>
+            <div class="tl-event-title">寫出個人網站</div>
+            <div class="tl-desc">運用了vibe coding與自己先前學習過的記憶，寫出個人網站並上架至github運行。</div>
           </div>
 
-          <!-- Bio -->
-          <p class="about-bio">
-            嗨，我是 GK。<br /><br />
-            我喜歡製造各種形式的作品——從一張插畫到一款互動遊戲，更甚至短短一段文字、一篇故事都是我用來表達想法的媒介。
-            只要閒下來就是不停深度思考，我需要一個好的出口 ——
-            於是我選擇了創作。<br /><br />
-            高中就讀三類組，大學想不開選了藝術科系
-            ，即便我沒有任何藝術基礎。到現在作為一個稱職的Z世代，我利用網路學我想學，做我想做。<br /><br />
-            正在接觸的有：日文、插畫、寫作、製作遊戲（Twine/Godot）、前/後端程式技術。<br />
-            目前正在開發中的專案包含：一個敘事向的純文字遊戲，以及這個網站本身。
-          </p>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2026 . 03</div>
+            <div class="tl-event-title">重新出發</div>
+            <div class="tl-desc">將過往的進度一把撈起，按自己的步調一步步朝著目標前進。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2026 . 01</div>
+            <div class="tl-event-title">進入重整期，暫停手邊所有進度</div>
+            <div class="tl-desc">陷入迷茫，暫停先前所有興趣的同時也開始整理思緒，思考自己真正想要的是什麼。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2025 . 10</div>
+            <div class="tl-event-title">開始練習畫圖、經營推特</div>
+            <div class="tl-desc">重拾了畫圖的興趣，在將作品發布至推特後意外被本人看到並點了愛心，因而在繪圖的路上狂奔著。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2025 . 07</div>
+            <div class="tl-event-title">開始接觸Unity</div>
+            <div class="tl-desc">因緣際會之下開始了Unity遊戲的學習與製作。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2025 . 04</div>
+            <div class="tl-event-title">公開發布第一篇同人二創文</div>
+            <div class="tl-desc">前一次寫同人文在國小的我，決定在10年後再次重拾寫作熱情，在pixiv上發布了以holoX設計為基礎的連載文章。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2025 . 03</div>
+            <div class="tl-event-title">開始經營Threads</div>
+            <div class="tl-desc">不善社交的我開始在網路上拓展交友圈，也開始寫關於hololive的歌曲介紹。</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2021 . 09</div>
+            <div class="tl-event-title">高中畢業，升入大學</div>
+            <div class="tl-desc">踏上設計不歸路的第一步。</div>
+          </div>
+
         </div>
       </div>
+    </div>
+    <!-- /about-bottom -->
+  </main>
 
-      <!-- ═══ Bottom Grid: Skills + Timeline ═════════════════ -->
-      <div class="about-bottom">
-        <!-- Detailed Skills Card -->
-        <div class="card">
-          <div class="card-title">Skills</div>
-
-          <div class="skill-detail">
-            <span class="skill-detail-name">當顆馬鈴薯</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-on">★</span>
-            </span>
-          </div>
-          <div class="skill-detail">
-            <span class="skill-detail-name">日文能力</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-off">★</span>
-            </span>
-          </div>
-          <div class="skill-detail">
-            <span class="skill-detail-name">介面設計</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-on">★</span><span class="star-off">★</span
-              ><span class="star-off">★</span>
-            </span>
-          </div>
-          <div class="skill-detail">
-            <span class="skill-detail-name">網頁程式 (HTML/CSS/JS)</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-off">★</span><span class="star-off">★</span
-              ><span class="star-off">★</span>
-            </span>
-          </div>
-          <div class="skill-detail">
-            <span class="skill-detail-name">敘事設計</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-on">★</span
-              ><span class="star-off">★</span><span class="star-off">★</span
-              ><span class="star-off">★</span>
-            </span>
-          </div>
-          <div class="skill-detail">
-            <span class="skill-detail-name">遊戲開發 (Twine / Godot)</span>
-            <span class="stars">
-              <span class="star-on">★</span><span class="star-off">★</span
-              ><span class="star-off">★</span><span class="star-off">★</span
-              ><span class="star-off">★</span>
-            </span>
-          </div>
-        </div>
-
-        <!-- Timeline -->
-        <div>
-          <div class="timeline-title">Timeline</div>
-          <div class="timeline">
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2026 . 04</div>
-              <div class="tl-event-title">寫出個人網站</div>
-              <div class="tl-desc">
-                運用了vibe
-                coding與自己先前學習過的記憶，寫出個人網站並上架至github運行。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2026 . 03</div>
-              <div class="tl-event-title">重新出發</div>
-              <div class="tl-desc">
-                將過往的進度一把撈起，按自己的步調一步步朝著目標前進。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2026 . 01</div>
-              <div class="tl-event-title">進入重整期，暫停手邊所有進度</div>
-              <div class="tl-desc">
-                陷入迷茫，暫停先前所有興趣的同時也開始整理思緒，思考自己真正想要的是什麼。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2025 . 10</div>
-              <div class="tl-event-title">開始練習畫圖、經營推特</div>
-              <div class="tl-desc">
-                重拾了畫圖的興趣，在將作品發布至推特後意外被本人看到並點了愛心，因而在繪圖的路上狂奔著。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2025 . 07</div>
-              <div class="tl-event-title">開始接觸Unity</div>
-              <div class="tl-desc">
-                因緣際會之下開始了Unity遊戲的學習與製作。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2025 . 04</div>
-              <div class="tl-event-title">公開發布第一篇同人二創文</div>
-              <div class="tl-desc">
-                前一次寫同人文在國小的我，決定在10年後再次重拾寫作熱情，在pixiv上發布了以holoX設計為基礎的連載文章。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2025 . 03</div>
-              <div class="tl-event-title">開始經營Threads</div>
-              <div class="tl-desc">
-                不善社交的我開始在網路上拓展交友圈，也開始寫關於hololive的歌曲介紹。
-              </div>
-            </div>
-
-            <div class="tl-item">
-              <div class="tl-dot"></div>
-              <div class="tl-date">2021 . 09</div>
-              <div class="tl-event-title">高中畢業，升入大學</div>
-              <div class="tl-desc">踏上設計不歸路的第一步。</div>
-            </div>
-          </div>
-        </div>
+  <!-- ── FOOTER ────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 &nbsp;<span>GK</span>&nbsp; · Built with curiosity and too many late nights</div>
+      <div class="footer-links">
+        <a href="now.html">Now</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/ns-7414" target="_blank">GitHub</a>
       </div>
-      <!-- /about-bottom -->
-    </main>
+      <div class="footer-status"><div class="status-dot"></div>SYSTEM ONLINE</div>
+    </div>
+  </footer>
 
-    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
-    <script>
-      /* ── Cursor ── */
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
-      (function animateRing() {
-        rx += (mx - rx) * 0.13;
-        ry += (my - ry) * 0.13;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          dot.classList.add("expanded");
-          ring.classList.add("expanded");
-        });
-        el.addEventListener("mouseleave", () => {
-          dot.classList.remove("expanded");
-          ring.classList.remove("expanded");
-        });
-      });
-
-      /* ── Theme Toggle ── */
-      const toggle = document.getElementById("themeToggle");
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", saved);
-      toggle.textContent = saved === "dark" ? "☽" : "☀";
-      toggle.addEventListener("click", () => {
-        const curr = document.documentElement.getAttribute("data-theme");
-        const next = curr === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        toggle.textContent = next === "dark" ? "☽" : "☀";
-      });
-    </script>
-  </body>
+  <script src="common.js"></script>
+</body>
 </html>

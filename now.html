@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now — GK的雜物堆</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <!-- ── CURSOR ────────────────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── EASTER EGG ──────────────────────────────────────── -->
+  <div id="easterEgg">
+    <div class="egg-terminal">
+      <div class="egg-titlebar">
+        <div class="egg-dot" style="background:#ff5555"></div>
+        <div class="egg-dot" style="background:#f1fa8c"></div>
+        <div class="egg-dot" style="background:#50fa7b"></div>
+        <span class="egg-titlebar-label">gk_terminal — bash · 80×24</span>
+      </div>
+      <div class="egg-body">
+        <div class="egg-line">$ cat /home/gk/.hidden/message.txt</div>
+        <hr class="egg-sep">
+        <div class="egg-line white">喲，你找到了。</div>
+        <div class="egg-line dim">不是每個人都會嘗試 Konami Code 的。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line highlight">既然你這麼有心，就給你看些隱藏數據：</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 真實技能評比（勿外傳）</div>
+        <div class="egg-line">深夜發呆能力    ★★★★★  (MAX)</div>
+        <div class="egg-line">假裝很忙的技術  ★★★★☆</div>
+        <div class="egg-line">最後一刻才開始  ★★★★★  (MAX)</div>
+        <div class="egg-line">把一切都做完    ★★★☆☆  (進行中)</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line red-txt">⚠ WARNING: 此訊息在你關閉視窗後將不復存在。</div>
+        <div class="egg-line dim">── 感謝你的造訪。繼續探索吧。</div>
+        <span class="egg-close" id="eggClose">[ 關閉終端機 ]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SYSTEM PANEL ──────────────────────────────────── -->
+  <button id="sysPanelToggle" title="系統監控面板">SYS</button>
+  <div id="sysContent">
+    <div class="sys-title">// SYSTEM MONITOR</div>
+    <div class="sys-row"><span class="sys-label">TIME</span><span class="sys-val" id="sysTime">--:--:--</span></div>
+    <div class="sys-row"><span class="sys-label">LOCATION</span><span class="sys-val">TW / TPE</span></div>
+    <div class="sys-row"><span class="sys-label">WEATHER</span><span class="sys-val">☁ 24°C</span></div>
+    <hr class="sys-divider">
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CPU TEMP</span><span class="sys-val" id="sysCpu">68°C</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysCpuBar" style="width:68%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">MEMORY</span><span class="sys-val" id="sysMem">6.2 GB</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysMemBar" style="width:52%"></div></div>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-title">// GK_STATUS.log</div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">STUDY</span><span class="sys-val">62%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:62%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CREATE</span><span class="sys-val">88%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">SLEEP</span><span class="sys-val warn">31%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:31%;background:linear-gradient(90deg,var(--yellow),var(--red))"></div></div>
+    </div>
+  </div>
+
+  <!-- ── NAVIGATION ─────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">GK的雜物堆</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link">Works</a>
+        <a href="blog.html"  class="nav-link">Blog</a>
+        <a href="now.html"   class="nav-link active">Now</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="nav-icon-btn" id="soundBtn" title="開啟環境音">♩</button>
+        <button class="nav-icon-btn" id="themeToggle" title="切換主題">☽</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <main>
+    <h1 class="page-heading">// WHAT I'M <span class="accent">UP TO RIGHT NOW</span></h1>
+
+    <p class="now-intro">
+      這不是什麼正式的履歷，就是……<strong>這週的 GK 在幹嘛</strong>。<br>
+      <span style="font-family:var(--mono);font-size:0.75rem;color:var(--text-sub)">Last updated: 2026.04.20</span>
+    </p>
+
+    <!-- Status Tags Row -->
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;">
+      <div class="now-status-tag"><div class="status-dot"></div>網站重構中</div>
+      <div class="now-status-tag"><div class="status-dot"></div>廢墟物語開發中</div>
+      <div class="now-status-tag"><div class="status-dot" style="background:var(--yellow)"></div>睡眠不足警告</div>
+    </div>
+
+    <!-- Now Grid -->
+    <div class="now-grid">
+
+      <!-- 專注的事 -->
+      <div class="card">
+        <div class="now-section-title"> 最近在忙</div>
+        <div class="now-item">
+          <div class="now-item-icon">⚙</div>
+          <div>
+            <div class="now-item-val">重新設計個人網站</div>
+            <div class="now-item-sub">加了一堆沒人會注意到的小細節</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">✏</div>
+          <div>
+            <div class="now-item-val">廢墟物語 — Twine 遊戲設計文件</div>
+            <div class="now-item-sub">五個廢墟、隱藏觸發機制、彩色結局系統</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">📖</div>
+          <div>
+            <div class="now-item-val">日文自學</div>
+            <div class="now-item-sub">N3 備考，進度時快時慢</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 在聽的音樂 -->
+      <div class="card">
+        <div class="now-section-title"> 在聽的東西</div>
+        <div class="now-item">
+          <div class="now-item-icon">♪</div>
+          <div>
+            <div class="now-item-val">ReGLOSS — アワータイムイエロー</div>
+            <div class="now-item-sub">循環播放第 47 次左右</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">♪</div>
+          <div>
+            <div class="now-item-val">lo-fi hip hop 電台</div>
+            <div class="now-item-sub">深夜寫 code 的固定背景</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">♪</div>
+          <div>
+            <div class="now-item-val">Hololive 雜談直播</div>
+            <div class="now-item-sub">邊工作邊開著當白噪音</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 在玩的遊戲 -->
+      <div class="card">
+        <div class="now-section-title"> 在玩的遊戲</div>
+        <div class="now-item">
+          <div class="now-item-icon">🎮</div>
+          <div>
+            <div class="now-item-val">（暫時沒在玩）</div>
+            <div class="now-item-sub">自己開發來不及了還玩什麼</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">📝</div>
+          <div>
+            <div class="now-item-val">研究其他 Twine 作品</div>
+            <div class="now-item-sub">偷學互動敘事的設計技巧</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 在看的東西 / 讀的東西 -->
+      <div class="card">
+        <div class="now-section-title"> 在讀／在看</div>
+        <div class="now-item">
+          <div class="now-item-icon">📺</div>
+          <div>
+            <div class="now-item-val">hololive 剪輯精華</div>
+            <div class="now-item-sub">拖延症的進階形式</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">💻</div>
+          <div>
+            <div class="now-item-val">各種網頁設計靈感收集</div>
+            <div class="now-item-sub">Dribbble / Pinterest 深度潛水</div>
+          </div>
+        </div>
+        <div class="now-item">
+          <div class="now-item-icon">📘</div>
+          <div>
+            <div class="now-item-val">敘事設計相關文章</div>
+            <div class="now-item-sub">Interactive Fiction 社群的老文章</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /now-grid -->
+
+  </main>
+
+  <!-- ── FOOTER ────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 &nbsp;<span>GK</span>&nbsp; · Built with curiosity and too many late nights</div>
+      <div class="footer-links">
+        <a href="now.html">Now</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/ns-7414" target="_blank">GitHub</a>
+      </div>
+      <div class="footer-status"><div class="status-dot"></div>SYSTEM ONLINE</div>
+    </div>
+  </footer>
+
+  <script src="common.js"></script>
+</body>
+</html>

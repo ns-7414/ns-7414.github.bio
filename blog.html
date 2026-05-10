@@ -1,234 +1,232 @@
 <!doctype html>
-<html lang="zh-Hant" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog — GK的雜物堆</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  </head>
-  <body>
-    <!-- ── CURSOR ────────────────────────────────────────── -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — GK的雜物堆</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
 
-    <!-- ── NAVIGATION ─────────────────────────────────────── -->
-    <nav>
-      <div class="nav-inner">
-        <a href="index.html" class="logo">GK的雜物堆</a>
-        <div class="nav-links">
-          <a href="work.html" class="nav-link">Works</a>
-          <a href="blog.html" class="nav-link active">Blog</a>
-          <a href="about.html" class="nav-link">About</a>
-          <button class="theme-toggle" id="themeToggle" title="切換主題">
-            ☀
-          </button>
+  <!-- ── CURSOR ──────────────────────────────── -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── EASTER EGG ──────────────────────────── -->
+  <div id="easterEgg">
+    <div class="egg-terminal">
+      <div class="egg-titlebar">
+        <div class="egg-dot" style="background:#ff5555"></div>
+        <div class="egg-dot" style="background:#f1fa8c"></div>
+        <div class="egg-dot" style="background:#50fa7b"></div>
+        <span class="egg-titlebar-label">gk_terminal — bash · 80×24</span>
+      </div>
+      <div class="egg-body">
+        <div class="egg-line">$ cat /home/gk/.hidden/message.txt</div>
+        <hr class="egg-sep">
+        <div class="egg-line white">嘿，你找到了。</div>
+        <div class="egg-line dim">不是每個人都會嘗試 Konami Code 的。</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line highlight">既然你這麼有心，就給你看些隱藏數據：</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line dim">// 真實技能評比（勿外傳）</div>
+        <div class="egg-line">深夜發呆能力    ★★★★★  (MAX)</div>
+        <div class="egg-line">假裝很忙的技術  ★★★★☆</div>
+        <div class="egg-line">最後一刻才開始  ★★★★★  (MAX)</div>
+        <div class="egg-line">把一切都做完    ★★★☆☆  (進行中)</div>
+        <div class="egg-line"> </div>
+        <div class="egg-line red-txt">⚠ WARNING: 此訊息在你關閉視窗後將不復存在。</div>
+        <div class="egg-line dim">── 感謝你的造訪。繼續探索吧。</div>
+        <span class="egg-close" id="eggClose">[ 關閉終端機 ]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SYSTEM PANEL ─────────────────────────── -->
+  <button id="sysPanelToggle" title="系統監控面板">SYS</button>
+  <div id="sysContent">
+    <div class="sys-title">// SYSTEM MONITOR</div>
+    <div class="sys-row"><span class="sys-label">TIME</span><span class="sys-val" id="sysTime">--:--:--</span></div>
+    <div class="sys-row"><span class="sys-label">LOCATION</span><span class="sys-val">TW / TPE</span></div>
+    <div class="sys-row"><span class="sys-label">WEATHER</span><span class="sys-val">☁ 24°C</span></div>
+    <hr class="sys-divider">
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CPU TEMP</span><span class="sys-val" id="sysCpu">68°C</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysCpuBar" style="width:68%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">MEMORY</span><span class="sys-val" id="sysMem">6.2 GB</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" id="sysMemBar" style="width:52%"></div></div>
+    </div>
+    <hr class="sys-divider">
+    <div class="sys-title">// GK_STATUS.log</div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">STUDY</span><span class="sys-val">62%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:62%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">CREATE</span><span class="sys-val">88%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="sys-bar-wrap">
+      <div class="sys-row"><span class="sys-label">SLEEP</span><span class="sys-val warn">31%</span></div>
+      <div class="sys-bar"><div class="sys-bar-fill" style="width:31%;background:linear-gradient(90deg,var(--yellow),var(--red))"></div></div>
+    </div>
+  </div>
+
+  <!-- ── NAVIGATION ───────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">GK的雜物堆</a>
+      <div class="nav-links">
+        <a href="work.html"  class="nav-link">Works</a>
+        <a href="blog.html"  class="nav-link active">Blog</a>
+        <a href="now.html"   class="nav-link">Now</a>
+        <a href="about.html" class="nav-link">About</a>
+        <button class="nav-icon-btn" id="soundBtn" title="開啟環境音">♩</button>
+        <button class="nav-icon-btn" id="themeToggle" title="切換主題">☽</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ─────────────────────────────────── -->
+  <main>
+    <h1 class="page-heading">Articles <span class="accent">_</span></h1>
+
+    <!-- Filter Buttons -->
+    <div class="filter-row">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="hololive">Hololive</button>
+      <button class="filter-btn" data-cat="gamedev">開發碎念</button>
+      <button class="filter-btn" data-cat="webdesign">網頁設計</button>
+    </div>
+
+    <!-- Article List -->
+    <div class="article-list" id="articleList">
+
+      <!-- 文章 A: Hololive -->
+      <a href="Articles/MV考察：ReGLOSS - アワータイムイエロー.html"
+         class="article-card" data-cat="hololive">
+        <div class="article-thumb">
+          <img src="Work_cover/HourTimeYellow.png" alt="アワータイムイエロー">
         </div>
+        <div class="article-body">
+          <div class="article-cat">Hololive · MV考察</div>
+          <div class="article-title">ReGLOSS - アワータイムイエロー</div>
+          <p class="article-excerpt">
+            過去的每分每秒都成就了我們，秋季則象徵著一個新的循環，新的開始。從懵懂無知的新人蛻變，歷經兩年淬鍊，全新的ReGLOSS在此刻登場。
+          </p>
+          <div class="article-date">2026.04.06</div>
+        </div>
+      </a>
+
+      <!-- 文章 B: 遊戲開發 -->
+      <a href="article.html?id=2" class="article-card" data-cat="gamedev">
+        <div class="article-thumb"
+             style="background:linear-gradient(135deg,#1a2d4a,#0a1825)">
+        </div>
+        <div class="article-body">
+          <div class="article-cat">開發碎念</div>
+          <div class="article-title">文章標題 B</div>
+          <p class="article-excerpt">
+            這是一篇關於遊戲開發的文章。可以是開發心得、技術分享、或者遊戲設計理論的探討，任何你在製作遊戲的過程中想記錄下來的事情都很適合放在這裡。
+          </p>
+          <div class="article-date">2025.06.14</div>
+        </div>
+      </a>
+
+      <!-- 文章 C: 網頁設計 -->
+      <a href="Articles/Github技巧：如何用Github上架屬於自己的網站.html"
+         class="article-card" data-cat="webdesign">
+        <div class="article-thumb"
+             style="background:linear-gradient(135deg,#28184a,#160e30)">
+        </div>
+        <div class="article-body">
+          <div class="article-cat">網頁設計</div>
+          <div class="article-title">Github 技巧：如何用 Github 上架屬於自己的網站</div>
+          <p class="article-excerpt">
+            這是一篇關於網頁設計的文章。可以分享設計過程、CSS 技巧、使用者體驗心得，或是這個網站本身的製作過程都很適合記錄下來。
+          </p>
+          <div class="article-date">2025.05.28</div>
+        </div>
+      </a>
+
+      <!-- 文章 D: Hololive -->
+      <a href="article.html?id=4" class="article-card" data-cat="hololive">
+        <div class="article-thumb"
+             style="background:linear-gradient(135deg,#1a3040,#0a1e2c)">
+        </div>
+        <div class="article-body">
+          <div class="article-cat">Hololive · 歌曲介紹</div>
+          <div class="article-title">文章標題 D</div>
+          <p class="article-excerpt">
+            另一篇 Hololive 相關文章的摘要。用來展示同一分類下有多篇文章時，篩選功能如何運作。
+          </p>
+          <div class="article-date">2025.04.10</div>
+        </div>
+      </a>
+
+      <!-- 文章 E: 遊戲開發 -->
+      <a href="article.html?id=5" class="article-card" data-cat="gamedev">
+        <div class="article-thumb"
+             style="background:linear-gradient(135deg,#2a1a45,#180e2c)">
+        </div>
+        <div class="article-body">
+          <div class="article-cat">開發碎念</div>
+          <div class="article-title">文章標題 E</div>
+          <p class="article-excerpt">
+            第二篇遊戲開發文章的摘要。可以是 Godot、Unity、或任何遊戲引擎的使用心得，也可以是遊戲機制設計、關卡設計等等的思考過程。
+          </p>
+          <div class="article-date">2025.03.02</div>
+        </div>
+      </a>
+
+    </div>
+    <!-- /article-list -->
+  </main>
+
+  <!-- ── FOOTER ───────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 &nbsp;<span>GK</span>&nbsp; · Built with curiosity and too many late nights</div>
+      <div class="footer-links">
+        <a href="now.html">Now</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/ns-7414" target="_blank">GitHub</a>
       </div>
-    </nav>
+      <div class="footer-status"><div class="status-dot"></div>SYSTEM ONLINE</div>
+    </div>
+  </footer>
 
-    <!-- ── MAIN ───────────────────────────────────────────── -->
-    <main>
-      <h1 class="page-heading">Articles <span class="accent">_</span></h1>
+  <script src="common.js"></script>
+  <script>
+    /* Blog Filter */
+    const filterBtns   = document.querySelectorAll('.filter-btn');
+    const articleCards = document.querySelectorAll('.article-card');
 
-      <!-- Filter Buttons -->
-      <div class="filter-row">
-        <button class="filter-btn active" data-cat="all">All</button>
-        <button class="filter-btn" data-cat="creative">Hololive</button>
-        <button class="filter-btn" data-cat="gamedev">開發碎念</button>
-        <button class="filter-btn" data-cat="webdesign">網頁設計</button>
-      </div>
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
 
-      <!-- Article List -->
-      <div class="article-list" id="articleList">
-        <!-- ─── 文章範例：請依格式新增 ─────────────────────────
-           整個 <a> 區塊都可點擊跳轉到文章頁面
-           data-cat 對應 filter-btn 的 data-cat 屬性
-           href 指向對應的文章頁面（例如 article.html?id=1）
-      ──────────────────────────────────────────────────── -->
-
-        <a
-          href="Articles/MV考察：ReGLOSS - アワータイムイエロー.html"
-          class="article-card"
-          data-cat="creative"
-        >
-          <div class="article-thumb">
-            <img src="Work_cover/HourTimeYellow.png" alt="文章主圖" />
-          </div>
-          <div class="article-body">
-            <div class="article-cat">Hololive_MV考察</div>
-            <div class="article-title">ReGLOSS - アワータイムイエロー</div>
-            <p class="article-excerpt">
-              過去的每分每秒都成就了我們，秋季則象徵著一個新的循環，新的開始。<br />
-              從懵懂無知的新人蛻變，歷經兩年淬鍊，全新的ReGLOSS在此刻登場。
-            </p>
-            <div class="article-date">2026.04.06</div>
-          </div>
-        </a>
-
-        <a
-          href="Articles/article-2.html"
-          class="article-card"
-          data-cat="gamedev"
-        >
-          <div
-            class="article-thumb"
-            style="background: linear-gradient(135deg, #4a9cc7, #2b78b0)"
-          >
-            <!-- <img src="assets/article-2.jpg" alt="文章主圖"> -->
-          </div>
-          <div class="article-body">
-            <div class="article-cat">遊戲開發</div>
-            <div class="article-title">文章標題 B</div>
-            <p class="article-excerpt">
-              這是一篇關於遊戲開發的文章。可以是開發心得、技術分享、或者遊戲設計理論的探討，
-              任何你在製作遊戲的過程中想記錄下來的事情都很適合放在這裡。
-            </p>
-            <div class="article-date">2025.06.14</div>
-          </div>
-        </a>
-
-        <a
-          href="Articles/Github技巧：如何用Github上架屬於自己的網站.html"
-          class="article-card"
-          data-cat="webdesign"
-        >
-          <div
-            class="article-thumb"
-            style="background: linear-gradient(135deg, #7b8fc7, #5567b0)"
-          >
-            <!-- <img src="assets/article-3.jpg" alt="文章主圖"> -->
-          </div>
-          <div class="article-body">
-            <div class="article-cat">網頁設計</div>
-            <div class="article-title">文章標題 C</div>
-            <p class="article-excerpt">
-              這是一篇關於網頁設計的文章。可以分享設計過程、CSS
-              技巧、使用者體驗心得，
-              或是這個網站本身的製作過程都很適合記錄下來。
-            </p>
-            <div class="article-date">2025.05.28</div>
-          </div>
-        </a>
-
-        <a href="article.html?id=4" class="article-card" data-cat="creative">
-          <div
-            class="article-thumb"
-            style="background: linear-gradient(135deg, #69d2b5, #38b2ac)"
-          >
-            <!-- <img src="assets/article-4.jpg" alt="文章主圖"> -->
-          </div>
-          <div class="article-body">
-            <div class="article-cat">創作隨筆</div>
-            <div class="article-title">文章標題 D</div>
-            <p class="article-excerpt">
-              另一篇創作隨筆的摘要。用來展示同一分類下有多篇文章時，篩選功能如何運作。
-              點擊上方的「創作隨筆」按鈕，就只會看到這篇和文章 A。
-            </p>
-            <div class="article-date">2025.04.10</div>
-          </div>
-        </a>
-
-        <a href="article.html?id=5" class="article-card" data-cat="gamedev">
-          <div
-            class="article-thumb"
-            style="background: linear-gradient(135deg, #c7a44a, #b07830)"
-          >
-            <!-- <img src="assets/article-5.jpg" alt="文章主圖"> -->
-          </div>
-          <div class="article-body">
-            <div class="article-cat">遊戲開發</div>
-            <div class="article-title">文章標題 E</div>
-            <p class="article-excerpt">
-              第二篇遊戲開發文章的摘要。可以是
-              Godot、Unity、或任何遊戲引擎的使用心得，
-              也可以是遊戲機制設計、關卡設計等等的思考過程。
-            </p>
-            <div class="article-date">2025.03.02</div>
-          </div>
-        </a>
-      </div>
-      <!-- /article-list -->
-    </main>
-
-    <!-- ── SCRIPTS ─────────────────────────────────────────── -->
-    <script>
-      /* ── Blog Filter ── */
-      const filterBtns = document.querySelectorAll(".filter-btn");
-      const articleCards = document.querySelectorAll(".article-card");
-
-      filterBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // Update active button
-          filterBtns.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-
-          const cat = btn.dataset.cat;
-
-          // Filter articles
-          articleCards.forEach((card) => {
-            if (cat === "all" || card.dataset.cat === cat) {
-              card.style.display = "flex";
-              // Animate in
-              card.style.opacity = "0";
-              card.style.transform = "translateY(8px)";
-              requestAnimationFrame(() => {
-                card.style.transition =
-                  "opacity 0.28s ease, transform 0.28s ease";
-                card.style.opacity = "1";
-                card.style.transform = "translateY(0)";
-              });
-            } else {
-              card.style.display = "none";
-            }
-          });
+        articleCards.forEach(card => {
+          const show = cat === 'all' || card.dataset.cat === cat;
+          card.style.display = show ? 'flex' : 'none';
+          if (show) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateX(-8px)';
+            requestAnimationFrame(() => {
+              card.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateX(0)';
+            });
+          }
         });
       });
-
-      /* ── Cursor ── */
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
-      (function animateRing() {
-        rx += (mx - rx) * 0.13;
-        ry += (my - ry) * 0.13;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          dot.classList.add("expanded");
-          ring.classList.add("expanded");
-        });
-        el.addEventListener("mouseleave", () => {
-          dot.classList.remove("expanded");
-          ring.classList.remove("expanded");
-        });
-      });
-
-      /* ── Theme Toggle ── */
-      const toggle = document.getElementById("themeToggle");
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", saved);
-      toggle.textContent = saved === "dark" ? "☽" : "☀";
-      toggle.addEventListener("click", () => {
-        const curr = document.documentElement.getAttribute("data-theme");
-        const next = curr === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        toggle.textContent = next === "dark" ? "☽" : "☀";
-      });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
